@@ -11,6 +11,7 @@
 
 typedef struct {
 	GPIO_TypeDef *timer_pwm_ch; //timer_pwm_channel
+	//TIM_HandleTypeDef
 	float freq_steps;
 	//
 	GPIO_TypeDef *enable_port;

@@ -25,6 +25,7 @@ void stepper_move(stepper_obj *stp, float pwm_port, float direction,
 	//calcoli gli step necessari per il dato angolo da:
 	n_steps = stp->step_scale * position;
 
+
 	//N_STEPS=STEP_SCALE*DISTANCE_INPUT
 }
 

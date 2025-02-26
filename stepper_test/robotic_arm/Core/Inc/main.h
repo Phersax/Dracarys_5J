@@ -67,6 +67,10 @@ void Error_Handler(void);
 #define LD2_GPIO_Port GPIOA
 #define PWM_MOT_Pin GPIO_PIN_6
 #define PWM_MOT_GPIO_Port GPIOA
+#define ENABLE_Pin GPIO_PIN_5
+#define ENABLE_GPIO_Port GPIOC
+#define DIRECTION_Pin GPIO_PIN_0
+#define DIRECTION_GPIO_Port GPIOB
 #define TMS_Pin GPIO_PIN_13
 #define TMS_GPIO_Port GPIOA
 #define TCK_Pin GPIO_PIN_14

@@ -67,7 +67,7 @@ int main(void)
 {
 
   /* USER CODE BEGIN 1 */
-
+	static int temp=0;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -95,17 +95,33 @@ int main(void)
 	/*
 	 stepper_init(obj, timer_port, resol, microstep, enable, direction*/
 	//stepper_init(&stp1, GPIOC, 1.8, 16, GPIOA, GPIOB);
+  HAL_TIM_Base_Start_IT(&htim3);
+
+  //test only:
+  		HAL_GPIO_WritePin(GPIOC, GPIO_PIN_5, GPIO_PIN_RESET); //ENABLE
+  		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET); //DIRECTION
+
+  		HAL_TIM_PWM_Start_IT(&htim3, TIM_CHANNEL_1);//START PWM FREQ DEFAULT
+  		if (htim3.Instance->CNT>= htim3.Instance->CCR1)
+  		{
+  			temp+=1;
+  			if (temp==200){
+  				HAL_TIM_PWM_Stop_IT(&htim3, TIM_CHANNEL_1);
+
+  			}
+  		}
+
+  		HAL_Delay(3000);
+
+  		//HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, 1); //DIRECTION
+  		//HAL_GPIO_WritePin(ENABLE_GPIO_Port, ENABLE_Pin, 0); //ENABLE
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 	while (1) {
 
-		//test only:
-		//HAL_GPIO_WritePin(GPIOx, GPIO_Pin, PinState) //ENABLE
-		//HAL_GPIO_WritePin(GPIOx, GPIO_Pin, PinState) //DIRECTION
-
-		//HAL_TIM_PWM_Start_IT(htim, Channel)//START PWM FREQ DEFAULT
+		HAL_Delay(1);
 		//HAL_Delay(Delay)
 
     /* USER CODE END WHILE */
