@@ -94,16 +94,25 @@ int main(void)
   /* USER CODE BEGIN 2 */
 
 	/*
-	 stepper_init(obj, timer_port, resol, microstep, enable, direction*/
-	//stepper_init(&stp1, GPIOC, 1.8, 16, GPIOA, GPIOB);
-  HAL_TIM_Base_Start_IT(&htim3);
+	 stepper_init(obj, pwm_timer_port, resol, microstep, enable_port, direction_port, timer slave*/
+	stepper_init(&stp1, PWM_MOT_GPIO_Port, 1.8, 1, ENABLE_GPIO_Port, DIRECTION_GPIO_Port, &htim5);
+  //HAL_TIM_Base_Start_IT(&htim3);
   HAL_TIM_Base_Start_IT(&htim5);
 
   	  	  //test
   		HAL_GPIO_WritePin(ENABLE_GPIO_Port, ENABLE_Pin, GPIO_PIN_RESET); //ENABLE
-  		HAL_GPIO_WritePin(DIRECTION_GPIO_Port, DIRECTION_Pin, GPIO_PIN_SET); //DIRECTION
-  		TIM5->ARR=100; //180 gradi
+
+  		stepper_move(&stp1, 1, 180, 2); //clockwise
+
+
   		HAL_TIM_PWM_Start_IT(&htim3, TIM_CHANNEL_1);//START PWM FREQ DEFAULT
+
+  		HAL_Delay(1000);
+
+
+  		stepper_move(&stp1, 0, 45, 2); //counterclockwise
+  		HAL_TIM_PWM_Start_IT(&htim3, TIM_CHANNEL_1);//START PWM FREQ DEFAULT
+
 
 
   		//HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, 1); //DIRECTION
@@ -172,8 +181,7 @@ void SystemClock_Config(void)
 void  HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
     if (htim->Instance == TIM5) {
     	HAL_TIM_PWM_Stop_IT(&htim3, TIM_CHANNEL_1);
-        HAL_TIM_Base_Stop_IT(&htim3);
-        HAL_TIM_Base_Stop_IT(&htim5);
+
     }
 
 }

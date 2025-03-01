@@ -1,2 +1,2 @@
 ../Core/Src/stepper.c:7:6:stepper_init	32	static
-../Core/Src/stepper.c:21:7:stepper_move	32	static
+../Core/Src/stepper.c:22:6:stepper_move	40	static
