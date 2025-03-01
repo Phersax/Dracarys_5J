@@ -6,13 +6,13 @@ extern TIM_HandleTypeDef htim3;
 
 void stepper_init(stepper_obj *stp, TIM_HandleTypeDef *pwm_timer,
 		TIM_HandleTypeDef *position_timer, float stepper_resolution,
-		uint16_t microstep, GPIO_TypeDef *enable_port,
-		GPIO_TypeDef *direction_port) {
+		uint16_t microstep, GPIO_TypeDef *direction_port,
+		uint16_t direction_pin) {
 
 	stp->position_timer = position_timer;
 	stp->pwm_timer = pwm_timer;
-	stp->enable_port = enable_port;
 	stp->direction_port = direction_port;
+	stp->direction_pin = direction_pin;
 
 	stp->stepper_resolution = stepper_resolution;
 	stp->microstep = microstep;
@@ -25,7 +25,7 @@ void stepper_move(stepper_obj *stp, direction_str direction, float position,
 
 	float displacement;
 	displacement = stp->step_scale * position / 360.0f;
-	HAL_GPIO_WritePin(DIRECTION_GPIO_Port, DIRECTION_Pin, direction); //DIRECTION
+	HAL_GPIO_WritePin(stp->direction_port, stp->direction_pin, direction); //DIRECTION
 
 	//set arr of timer-slave for the position step count
 	__HAL_TIM_SET_AUTORELOAD(stp->position_timer, displacement);

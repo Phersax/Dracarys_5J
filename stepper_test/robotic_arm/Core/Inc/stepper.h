@@ -16,8 +16,8 @@ typedef struct {
 
 	float freq_steps;
 	//
-	GPIO_TypeDef *enable_port;
 	GPIO_TypeDef *direction_port;
+	uint16_t direction_pin;
 	//stepper data
 	float stepper_resolution;
 	float step_per_rev; // = 360/stepper_resolution; // 360°/resolution
@@ -32,8 +32,8 @@ typedef enum {
 } direction_str;
 void stepper_init(stepper_obj *stp, TIM_HandleTypeDef *pwm_timer,
 		TIM_HandleTypeDef *position_timer, float stepper_resolution,
-		uint16_t microstep, GPIO_TypeDef *enable_port,
-		GPIO_TypeDef *direction_port);
+		uint16_t microstep, GPIO_TypeDef *direction_port,
+		uint16_t direction_pin) ;
 
 void stepper_move(stepper_obj *stp, direction_str direction, float position,
 		float freq_steps);

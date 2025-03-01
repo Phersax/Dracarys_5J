@@ -92,12 +92,12 @@ int main(void) {
 	MX_TIM5_Init();
 	/* USER CODE BEGIN 2 */
 	HAL_TIM_Base_Start_IT(&htim5);
+	HAL_GPIO_WritePin(ENABLE_GPIO_Port, ENABLE_Pin, GPIO_PIN_RESET); //ENABLE
 	/*
 	 stepper_init(obj, resol, microstep, enable_port, direction_port, timer slave, timerpwm*/
-	stepper_init(&stp1, &htim3, &htim5, 1.8, 1, ENABLE_GPIO_Port,
-			DIRECTION_GPIO_Port);
+	stepper_init(&stp1, &htim3, &htim5, 1.8, 1, DIRECTION_GPIO_Port, DIRECTION_Pin);
 
-	HAL_GPIO_WritePin(ENABLE_GPIO_Port, ENABLE_Pin, GPIO_PIN_RESET); //ENABLE
+
 
 	stepper_move(&stp1, CLOCKWISE, 180, 2); //SET REGISTERS FOR THE MOVEMENT
 
