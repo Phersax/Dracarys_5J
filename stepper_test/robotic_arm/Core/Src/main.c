@@ -67,7 +67,7 @@ int main(void)
 {
 
   /* USER CODE BEGIN 1 */
-	static int temp=0;
+
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -90,28 +90,21 @@ int main(void)
   MX_GPIO_Init();
   MX_USART2_UART_Init();
   MX_TIM3_Init();
+  MX_TIM5_Init();
   /* USER CODE BEGIN 2 */
 
 	/*
 	 stepper_init(obj, timer_port, resol, microstep, enable, direction*/
 	//stepper_init(&stp1, GPIOC, 1.8, 16, GPIOA, GPIOB);
   HAL_TIM_Base_Start_IT(&htim3);
+  HAL_TIM_Base_Start_IT(&htim5);
 
-  //test only:
-  		HAL_GPIO_WritePin(GPIOC, GPIO_PIN_5, GPIO_PIN_RESET); //ENABLE
-  		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET); //DIRECTION
-
+  	  	  //test
+  		HAL_GPIO_WritePin(ENABLE_GPIO_Port, ENABLE_Pin, GPIO_PIN_RESET); //ENABLE
+  		HAL_GPIO_WritePin(DIRECTION_GPIO_Port, DIRECTION_Pin, GPIO_PIN_SET); //DIRECTION
+  		TIM5->ARR=100; //180 gradi
   		HAL_TIM_PWM_Start_IT(&htim3, TIM_CHANNEL_1);//START PWM FREQ DEFAULT
-  		if (htim3.Instance->CNT>= htim3.Instance->CCR1)
-  		{
-  			temp+=1;
-  			if (temp==200){
-  				HAL_TIM_PWM_Stop_IT(&htim3, TIM_CHANNEL_1);
 
-  			}
-  		}
-
-  		HAL_Delay(3000);
 
   		//HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, 1); //DIRECTION
   		//HAL_GPIO_WritePin(ENABLE_GPIO_Port, ENABLE_Pin, 0); //ENABLE
@@ -120,9 +113,6 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 	while (1) {
-
-		HAL_Delay(1);
-		//HAL_Delay(Delay)
 
     /* USER CODE END WHILE */
 
@@ -179,7 +169,14 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+void  HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
+    if (htim->Instance == TIM5) {
+    	HAL_TIM_PWM_Stop_IT(&htim3, TIM_CHANNEL_1);
+        HAL_TIM_Base_Stop_IT(&htim3);
+        HAL_TIM_Base_Stop_IT(&htim5);
+    }
 
+}
 /* USER CODE END 4 */
 
 /**

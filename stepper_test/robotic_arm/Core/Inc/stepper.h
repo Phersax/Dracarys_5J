@@ -18,7 +18,7 @@ typedef struct {
 	GPIO_TypeDef *direction_port;
 	//
 	uint16_t stepper_resolution;
-	uint16_t step_per_rev; // = 360/stepper_resolution; // 360°/resolution
+	float step_per_rev; // = 360/stepper_resolution; // 360°/resolution
 	uint16_t microstep;
 	uint16_t step_scale; //= step_per_rev*microstep;
 
@@ -31,7 +31,7 @@ void stepper_init(stepper_obj *stp, GPIO_TypeDef *timer_pwm_ch,
 		float stepper_resolution, uint16_t microstep, GPIO_TypeDef *enable_port,
 		GPIO_TypeDef *direction_port) ;
 
-void stepper_move(stepper_obj *stp, float pwm_port, float dir, uint8_t enable,
+float stepper_move(stepper_obj *stp, float pwm_port, float dir, uint8_t enable,
 		float position, float freq_steps);
 
 /* Useful getter functions to access the parameters of the PWM signal

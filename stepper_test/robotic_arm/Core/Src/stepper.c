@@ -18,12 +18,13 @@ void stepper_init(stepper_obj *stp, GPIO_TypeDef *timer_pwm_ch,
 	stp->step_scale = stp->step_per_rev * microstep;
 }
 
-void stepper_move(stepper_obj *stp, float pwm_port, float direction,
+float stepper_move(stepper_obj *stp, float pwm_port, float direction,
 		uint8_t enable, float position, float freq_steps) {
 
-	float n_steps;
+	//float n_steps;
 	//calcoli gli step necessari per il dato angolo da:
-	n_steps = stp->step_scale * position;
+	return stp->step_scale * position;
+
 
 
 	//N_STEPS=STEP_SCALE*DISTANCE_INPUT
