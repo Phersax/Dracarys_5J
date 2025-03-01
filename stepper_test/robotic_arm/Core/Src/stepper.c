@@ -4,12 +4,13 @@ extern TIM_HandleTypeDef htim3;
 
 //definisco l'oggetto stepper con i seguenti parametri
 
-void stepper_init(stepper_obj *stp, GPIO_TypeDef *timer_pwm_ch,
-		float stepper_resolution, uint16_t microstep, GPIO_TypeDef *enable_port,
-		GPIO_TypeDef *direction_port, TIM_HandleTypeDef *position_timer) {
+void stepper_init(stepper_obj *stp, TIM_HandleTypeDef *pwm_timer,
+		TIM_HandleTypeDef *position_timer, float stepper_resolution,
+		uint16_t microstep, GPIO_TypeDef *enable_port,
+		GPIO_TypeDef *direction_port) {
 
-	stp->position_timer=position_timer;
-	stp->timer_pwm_ch = timer_pwm_ch;
+	stp->position_timer = position_timer;
+	stp->pwm_timer = pwm_timer;
 	stp->enable_port = enable_port;
 	stp->direction_port = direction_port;
 
@@ -19,14 +20,15 @@ void stepper_init(stepper_obj *stp, GPIO_TypeDef *timer_pwm_ch,
 	stp->step_scale = stp->step_per_rev * microstep;
 }
 
-void stepper_move(stepper_obj *stp, float direction, float position, float freq_steps) {
+void stepper_move(stepper_obj *stp, direction_str direction, float position,
+		float freq_steps) {
 
 	float displacement;
-	displacement = stp->step_scale * position /360.0f;
+	displacement = stp->step_scale * position / 360.0f;
 	HAL_GPIO_WritePin(DIRECTION_GPIO_Port, DIRECTION_Pin, direction); //DIRECTION
 
 	//set arr of timer-slave for the position step count
 	__HAL_TIM_SET_AUTORELOAD(stp->position_timer, displacement);
-	stp->position_timer->Instance->EGR=TIM_EGR_UG; //reset the trigger
+	stp->position_timer->Instance->EGR = TIM_EGR_UG; //reset the trigger
 }
 

@@ -10,13 +10,15 @@
 #include "main.h"
 
 typedef struct {
-	GPIO_TypeDef *timer_pwm_ch; //timer_pwm_channel
-	TIM_HandleTypeDef *position_timer;
+	//timers
+	TIM_HandleTypeDef *pwm_timer; //master timer
+	TIM_HandleTypeDef *position_timer; //SLAVE timer
+
 	float freq_steps;
 	//
 	GPIO_TypeDef *enable_port;
 	GPIO_TypeDef *direction_port;
-	//
+	//stepper data
 	float stepper_resolution;
 	float step_per_rev; // = 360/stepper_resolution; // 360°/resolution
 	uint16_t microstep;
@@ -24,19 +26,16 @@ typedef struct {
 
 } stepper_obj;
 
-//calcoli gli step necessari per il dato angolo da:
-//N_STEPS=STEP_SCALE*DISTANCE_INPUT
+typedef enum {
+	CLOCKWISE = 1, COUNTERCLOCKWISE = 0
 
-void stepper_init(stepper_obj *stp, GPIO_TypeDef *timer_pwm_ch,
-		float stepper_resolution, uint16_t microstep, GPIO_TypeDef *enable_port,
-		GPIO_TypeDef *direction_port, TIM_HandleTypeDef *position_timer)  ;
+} direction_str;
+void stepper_init(stepper_obj *stp, TIM_HandleTypeDef *pwm_timer,
+		TIM_HandleTypeDef *position_timer, float stepper_resolution,
+		uint16_t microstep, GPIO_TypeDef *enable_port,
+		GPIO_TypeDef *direction_port);
 
-void stepper_move(stepper_obj *stp, float direction, float position, float freq_steps);
-
-/* Useful getter functions to access the parameters of the PWM signal
- uint32_t nidec_h24_GetPeriod();
- uint32_t nidec_h24_GetPrescaler();
- uint32_t nidec_h24_GetCounter();
- uint32_t nidec_h24_GetDutyCycle();*/
+void stepper_move(stepper_obj *stp, direction_str direction, float position,
+		float freq_steps);
 
 #endif /* INC_STEPPER_H_ */

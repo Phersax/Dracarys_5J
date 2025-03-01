@@ -3,3 +3,4 @@
 ../Core/Src/tim.c:145:6:HAL_TIM_Base_MspInit	24	static
 ../Core/Src/tim.c:179:6:HAL_TIM_MspPostInit	40	static
 ../Core/Src/tim.c:207:6:HAL_TIM_Base_MspDeInit	16	static
+../Core/Src/tim.c:241:7:HAL_TIM_PeriodElapsedCallback	16	static
