@@ -238,11 +238,21 @@ void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef* tim_baseHandle)
 }
 
 /* USER CODE BEGIN 1 */
+
+//slave timer disable the pwm of the master timer
 void  HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
     if (htim->Instance == TIM5) {
     	HAL_TIM_PWM_Stop_IT(&htim3, TIM_CHANNEL_1);
 
     }
 
+}
+
+//emergency stop button
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
+	if (GPIO_Pin==DISABLE_Pin){
+		HAL_GPIO_WritePin(ENABLE_GPIO_Port, ENABLE_Pin, GPIO_PIN_SET); //ENABLE
+		__disable_irq();
+	}
 }
 /* USER CODE END 1 */
