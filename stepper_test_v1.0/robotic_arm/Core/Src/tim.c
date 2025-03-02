@@ -253,6 +253,10 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
 	if (GPIO_Pin==DISABLE_Pin){
 		HAL_GPIO_WritePin(ENABLE_GPIO_Port, ENABLE_Pin, GPIO_PIN_SET); //ENABLE
 		__disable_irq();
+
+		while(1){
+
+		}
 	}
 }
 /* USER CODE END 1 */
