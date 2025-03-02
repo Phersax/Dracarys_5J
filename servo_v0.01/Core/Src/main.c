@@ -24,7 +24,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "servo.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -56,7 +56,7 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+servo_obj servo;
 /* USER CODE END 0 */
 
 /**
@@ -93,19 +93,40 @@ int main(void)
   /* USER CODE BEGIN 2 */
 
 
-
-	int position = 6000; //ccr value
+/*
+	int position = 3000; //ccr value
 	//ccr=4500 = 0°, 3000=-45°, 6000=45°
 
 
 	if (position < 3000)
 		position = 3000;//ccr min for 50hz pwm
 	else if (position > 5999)
-		position = 5999;//ccr max for 50 hz pwm
-
-	__HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_1, position);
+		position = 5999;//ccr max for 50 hz pwm*/
+    /*
 
 	HAL_TIM_PWM_Start_IT(&htim4, TIM_CHANNEL_1);
+	__HAL_TIM_SET_PRESCALER(&htim4,27);    //50hz
+	htim4.Instance->EGR = TIM_EGR_UG; //reset the trigger
+
+	__HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_1, 1499);
+	htim4.Instance->EGR = TIM_EGR_UG; //reset the trigger
+	HAL_Delay(1000);
+	__HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_1, 7499);
+	htim4.Instance->EGR = TIM_EGR_UG; //reset the trigger
+	*/
+  	HAL_TIM_PWM_Start_IT(&htim4, TIM_CHANNEL_1);
+
+    servo_init(&servo, &htim4);
+
+    servo_move(&servo, -90);
+   	HAL_Delay(1000);
+    servo_move(&servo, 0);
+    HAL_Delay(1000);
+    servo_move(&servo, +90);
+    HAL_Delay(1000);
+
+
+
 
 
 
