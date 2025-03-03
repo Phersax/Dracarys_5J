@@ -9,6 +9,9 @@
 #define INC_STEPPER_H_
 #include "main.h"
 
+#define ACCEL_RATE 1 //1 OR 2 CHANGED THE GRANULARITY
+
+
 typedef struct {
 	//timers
 	TIM_HandleTypeDef *pwm_timer; //master timer
@@ -37,5 +40,7 @@ void stepper_init(stepper_obj *stp, TIM_HandleTypeDef *pwm_timer,
 
 void stepper_move(stepper_obj *stp, direction_str direction, float position,
 		float freq_steps);
+
+void trapezodial_profile(stepper_obj *stp,float freq_steps, float n_steps);
 
 #endif /* INC_STEPPER_H_ */

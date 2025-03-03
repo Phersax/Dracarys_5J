@@ -1,2 +1,3 @@
 ../Core/Src/stepper.c:7:6:stepper_init	32	static
 ../Core/Src/stepper.c:23:6:stepper_move	32	static
+../Core/Src/stepper.c:39:6:trapezodial_profile	40	static
