@@ -60,8 +60,8 @@ all: main-build
 main-build: robotic_arm.elf secondary-outputs
 
 # Tool invocations
-robotic_arm.elf robotic_arm.map: $(OBJS) $(USER_OBJS) C:\Users\david\Desktop\rob1_proj\RASN_5\stepper_test_v1.0\robotic_arm\STM32F446RETX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "robotic_arm.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\david\Desktop\rob1_proj\RASN_5\stepper_test_v1.0\robotic_arm\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="robotic_arm.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+robotic_arm.elf robotic_arm.map: $(OBJS) $(USER_OBJS) C:\Users\Francesco\ Stasi\OneDrive\ -\ Politecnico\ di\ Bari\UNI_Robotics_1\RASN_5\stepper_test_v1.0\robotic_arm\STM32F446RETX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "robotic_arm.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\Francesco Stasi\OneDrive - Politecnico di Bari\UNI_Robotics_1\RASN_5\stepper_test_v1.0\robotic_arm\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="robotic_arm.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

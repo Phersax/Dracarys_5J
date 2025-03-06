@@ -96,17 +96,17 @@ int main(void)
 	HAL_GPIO_WritePin(ENABLE_GPIO_Port, ENABLE_Pin, GPIO_PIN_RESET); //ENABLE
 	/*
 	 stepper_init(obj, resol, microstep, enable_port, direction_port, timer slave, timerpwm*/
-	stepper_init(&stp1, &htim3, &htim5, 1.8, 1, DIRECTION_GPIO_Port, DIRECTION_Pin);
+	stepper_init(&stp1, &htim3, &htim5, 1.8, 50, DIRECTION_GPIO_Port, DIRECTION_Pin);
 
 
 
-	stepper_move(&stp1, CLOCKWISE, 180, 2); //SET REGISTERS FOR THE MOVEMENT
+	stepper_move(&stp1, CLOCKWISE, 90, 2); //SET REGISTERS FOR THE MOVEMENT
 
 	HAL_TIM_PWM_Start_IT(stp1.pwm_timer, TIM_CHANNEL_1); //START PWM
 
-	HAL_Delay(1000);
+	HAL_Delay(3000);
 
-	stepper_move(&stp1, COUNTERCLOCKWISE, 45, 2);
+	stepper_move(&stp1, COUNTERCLOCKWISE, 90, 2);
 
 	HAL_TIM_PWM_Start_IT(stp1.pwm_timer, TIM_CHANNEL_1);
 

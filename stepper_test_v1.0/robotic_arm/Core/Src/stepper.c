@@ -23,16 +23,19 @@ void stepper_init(stepper_obj *stp, TIM_HandleTypeDef *pwm_timer,
 void stepper_move(stepper_obj *stp, direction_str direction, float position,
 		float freq) {
 
-	float n_steps = stp->step_scale * position / 360.0f; //[n_steps]
+	int n_steps = stp->step_scale * position / 360.0f ; //[n_steps]
 
-	float freq_steps = stp->step_scale * freq / 360.0f; //[n_steps/s]
+	//float freq_steps = stp->step_scale * freq / 360.0f; //[n_steps/s]
 
 	//trapezoidal_profile(freq_steps, position);
 
 	HAL_GPIO_WritePin(stp->direction_port, stp->direction_pin, direction); //DIRECTION
 
 	//set arr of timer-slave for the position step count
-	__HAL_TIM_SET_AUTORELOAD(stp->position_timer, n_steps);
+	__HAL_TIM_SET_AUTORELOAD(stp->position_timer, n_steps-1);
+	__HAL_TIM_SET_COUNTER(stp->position_timer,0);
+	__HAL_TIM_SET_COUNTER(stp->pwm_timer,0);
+	stp->pwm_timer->Instance->EGR = TIM_EGR_UG; //reset the trigger
 	stp->position_timer->Instance->EGR = TIM_EGR_UG; //reset the trigger
 }
 
