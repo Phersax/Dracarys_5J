@@ -106,28 +106,28 @@ int main(void)
 	HAL_GPIO_WritePin(ENABLE_GPIO_Port, ENABLE_Pin, GPIO_PIN_RESET); //ENABLE
 	/*
 	 stepper_init(obj, resol, microstep, enable_port, direction_port, timer slave, timerpwm*/
-	stepper_init(&stp1, &htim1, &htim4, 1.8, 50, DIRECTION1_GPIO_Port,
+	stepper_init(&stp1, &htim1, &htim4, 1.8, 5* htim1.Init.Prescaler, DIRECTION1_GPIO_Port,
 			DIRECTION1_Pin);
 
-	stepper_init(&stp2, &htim2, &htim3, 1.8, 40, DIRECTION2_GPIO_Port,
+	stepper_init(&stp2, &htim2, &htim3, 1.8, 6.4* htim2.Init.Prescaler, DIRECTION2_GPIO_Port,
 			DIRECTION2_Pin);
-	stepper_init(&stp3, &htim2, &htim3, 1.8, 40, DIRECTION3_GPIO_Port,
+	stepper_init(&stp3, &htim2, &htim3, 1.8, 6.4* htim2.Init.Prescaler, DIRECTION3_GPIO_Port,
 			DIRECTION3_Pin);
-	stepper_init(&stp4, &htim8, &htim5, 1.8, 40, DIRECTION4_GPIO_Port,
+	stepper_init(&stp4, &htim8, &htim5, 1.8, 4* htim8.Init.Prescaler, DIRECTION4_GPIO_Port,
 			DIRECTION4_Pin);
 
-	stepper_move(&stp1, CLOCKWISE, 150, 2); //SET REGISTERS FOR THE MOVEMENT
-	HAL_TIM_PWM_Start_IT(stp1.pwm_timer, TIM_CHANNEL_1); //START PWM
+	//stepper_move(&stp1, CLOCKWISE, 150, 2); //SET REGISTERS FOR THE MOVEMENT
+	//HAL_TIM_PWM_Start_IT(stp1.pwm_timer, TIM_CHANNEL_1); //START PWM
 	//HAL_Delay(2000);
 
-	stepper_move(&stp2, CLOCKWISE, 25, 2); //SET REGISTERS FOR THE MOVEMENT
-	stepper_move(&stp3, COUNTERCLOCKWISE, 25, 2); //SET REGISTERS FOR THE MOVEMENT
+	stepper_move(&stp2, CLOCKWISE, 45, 2); //SET REGISTERS FOR THE MOVEMENT
+	stepper_move(&stp3, COUNTERCLOCKWISE, 45, 2); //SET REGISTERS FOR THE MOVEMENT
 	HAL_TIM_PWM_Start_IT(stp2.pwm_timer, TIM_CHANNEL_1); //START PWM
 	HAL_TIM_PWM_Start_IT(stp3.pwm_timer, TIM_CHANNEL_2); //START PWM
 	//HAL_Delay(2000);
 
-	stepper_move(&stp4, CLOCKWISE, 100, 2); //SET REGISTERS FOR THE MOVEMENT
-	HAL_TIM_PWM_Start_IT(stp4.pwm_timer, TIM_CHANNEL_1); //START PWM
+	//stepper_move(&stp4, CLOCKWISE, 100, 2); //SET REGISTERS FOR THE MOVEMENT
+	//HAL_TIM_PWM_Start_IT(stp4.pwm_timer, TIM_CHANNEL_1); //START PWM
 	//HAL_Delay(2000);
 
 	//stepper_move(&stp1, COUNTERCLOCKWISE, 90, 2);
