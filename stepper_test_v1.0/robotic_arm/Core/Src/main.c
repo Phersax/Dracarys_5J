@@ -46,6 +46,9 @@
 
 /* USER CODE BEGIN PV */
 stepper_obj stp1;
+stepper_obj stp2;
+stepper_obj stp3;
+stepper_obj stp4;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -91,24 +94,45 @@ int main(void)
   MX_USART2_UART_Init();
   MX_TIM3_Init();
   MX_TIM5_Init();
+  MX_TIM1_Init();
+  MX_TIM2_Init();
+  MX_TIM4_Init();
+  MX_TIM8_Init();
   /* USER CODE BEGIN 2 */
+	HAL_TIM_Base_Start_IT(&htim4);
+	HAL_TIM_Base_Start_IT(&htim3);
 	HAL_TIM_Base_Start_IT(&htim5);
+
 	HAL_GPIO_WritePin(ENABLE_GPIO_Port, ENABLE_Pin, GPIO_PIN_RESET); //ENABLE
 	/*
 	 stepper_init(obj, resol, microstep, enable_port, direction_port, timer slave, timerpwm*/
-	stepper_init(&stp1, &htim3, &htim5, 1.8, 50, DIRECTION_GPIO_Port, DIRECTION_Pin);
+	stepper_init(&stp1, &htim1, &htim4, 1.8, 50, DIRECTION1_GPIO_Port,
+			DIRECTION1_Pin);
 
+	stepper_init(&stp2, &htim2, &htim3, 1.8, 40, DIRECTION2_GPIO_Port,
+			DIRECTION2_Pin);
+	stepper_init(&stp3, &htim2, &htim3, 1.8, 40, DIRECTION3_GPIO_Port,
+			DIRECTION3_Pin);
+	stepper_init(&stp4, &htim8, &htim5, 1.8, 40, DIRECTION4_GPIO_Port,
+			DIRECTION4_Pin);
 
-
-	stepper_move(&stp1, CLOCKWISE, 90, 2); //SET REGISTERS FOR THE MOVEMENT
-
+	stepper_move(&stp1, CLOCKWISE, 150, 2); //SET REGISTERS FOR THE MOVEMENT
 	HAL_TIM_PWM_Start_IT(stp1.pwm_timer, TIM_CHANNEL_1); //START PWM
+	//HAL_Delay(2000);
 
-	HAL_Delay(3000);
+	stepper_move(&stp2, CLOCKWISE, 25, 2); //SET REGISTERS FOR THE MOVEMENT
+	stepper_move(&stp3, COUNTERCLOCKWISE, 25, 2); //SET REGISTERS FOR THE MOVEMENT
+	HAL_TIM_PWM_Start_IT(stp2.pwm_timer, TIM_CHANNEL_1); //START PWM
+	HAL_TIM_PWM_Start_IT(stp3.pwm_timer, TIM_CHANNEL_2); //START PWM
+	//HAL_Delay(2000);
 
-	stepper_move(&stp1, COUNTERCLOCKWISE, 90, 2);
+	stepper_move(&stp4, CLOCKWISE, 100, 2); //SET REGISTERS FOR THE MOVEMENT
+	HAL_TIM_PWM_Start_IT(stp4.pwm_timer, TIM_CHANNEL_1); //START PWM
+	//HAL_Delay(2000);
 
-	HAL_TIM_PWM_Start_IT(stp1.pwm_timer, TIM_CHANNEL_1);
+	//stepper_move(&stp1, COUNTERCLOCKWISE, 90, 2);
+
+	//HAL_TIM_PWM_Start_IT(stp1.pwm_timer, TIM_CHANNEL_1);
 
 	//HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, 1); //DIRECTION
 	//HAL_GPIO_WritePin(ENABLE_GPIO_Port, ENABLE_Pin, 0); //ENABLE

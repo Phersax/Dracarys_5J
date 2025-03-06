@@ -57,21 +57,33 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define DISABLE_Pin GPIO_PIN_13
-#define DISABLE_GPIO_Port GPIOC
-#define DISABLE_EXTI_IRQn EXTI15_10_IRQn
+#define DISABLE_button_Pin GPIO_PIN_13
+#define DISABLE_button_GPIO_Port GPIOC
+#define DISABLE_button_EXTI_IRQn EXTI15_10_IRQn
+#define PWM2_Pin GPIO_PIN_0
+#define PWM2_GPIO_Port GPIOA
+#define PWM3_Pin GPIO_PIN_1
+#define PWM3_GPIO_Port GPIOA
 #define USART_TX_Pin GPIO_PIN_2
 #define USART_TX_GPIO_Port GPIOA
 #define USART_RX_Pin GPIO_PIN_3
 #define USART_RX_GPIO_Port GPIOA
 #define LD2_Pin GPIO_PIN_5
 #define LD2_GPIO_Port GPIOA
-#define PWM_MOT_Pin GPIO_PIN_6
-#define PWM_MOT_GPIO_Port GPIOA
+#define DIRECTION4_Pin GPIO_PIN_6
+#define DIRECTION4_GPIO_Port GPIOA
+#define DIRECTION3_Pin GPIO_PIN_7
+#define DIRECTION3_GPIO_Port GPIOA
+#define DIRECTION2_Pin GPIO_PIN_4
+#define DIRECTION2_GPIO_Port GPIOC
 #define ENABLE_Pin GPIO_PIN_5
 #define ENABLE_GPIO_Port GPIOC
-#define DIRECTION_Pin GPIO_PIN_0
-#define DIRECTION_GPIO_Port GPIOB
+#define DIRECTION1_Pin GPIO_PIN_0
+#define DIRECTION1_GPIO_Port GPIOB
+#define PWM4_Pin GPIO_PIN_6
+#define PWM4_GPIO_Port GPIOC
+#define PWM1_Pin GPIO_PIN_8
+#define PWM1_GPIO_Port GPIOA
 #define TMS_Pin GPIO_PIN_13
 #define TMS_GPIO_Port GPIOA
 #define TCK_Pin GPIO_PIN_14
