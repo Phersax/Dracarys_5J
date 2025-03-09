@@ -10,6 +10,8 @@
 #include "main.h"
 
 #define ACCEL_RATE 1 //1 OR 2 CHANGED THE GRANULARITY
+#define ARR_START 20000
+#define ARR_MAX 65535
 
 
 typedef struct {

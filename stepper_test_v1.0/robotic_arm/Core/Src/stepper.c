@@ -20,20 +20,30 @@ void stepper_init(stepper_obj *stp, TIM_HandleTypeDef *pwm_timer,
 	stp->step_scale = stp->step_per_rev * microstep;
 }
 int n_steps; //debug
+float freq_des_steps;
+int arr_des=20000;
 
 void stepper_move(stepper_obj *stp, direction_str direction, float position,
-		float freq) {
+		float freq_desired) {
 
 	n_steps = stp->step_scale * position / 360.0f; //[n_steps]
 
-	//float freq_steps = stp->step_scale * freq / 360.0f; //[n_steps/s]
+	freq_des_steps = stp->step_scale * freq_desired / 360.0f; //[n_steps/s]
+
+	arr_des= (84*1000000/freq_des_steps)/stp->pwm_timer->Instance->PSC -1;
+
+
 
 	//trapezoidal_profile(freq_steps, position);
 
 	HAL_GPIO_WritePin(stp->direction_port, stp->direction_pin, direction); //DIRECTION
 
 	//set arr of timer-slave for the position step count
-	__HAL_TIM_SET_AUTORELOAD(stp->position_timer, (n_steps * stp->pwm_timer->Init.Prescaler) - 1);
+
+	__HAL_TIM_SET_AUTORELOAD(stp->pwm_timer, ARR_START);
+	__HAL_TIM_SET_PRESCALER(stp->position_timer, __HAL_TIM_GET_AUTORELOAD(stp->pwm_timer));
+
+	__HAL_TIM_SET_AUTORELOAD(stp->position_timer, (n_steps*stp->pwm_timer->Instance->PSC - 1));
 	reset_timers(stp);
 
 }

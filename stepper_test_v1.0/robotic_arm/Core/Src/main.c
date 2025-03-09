@@ -76,7 +76,8 @@ int main(void)
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  HAL_Init();
+
+	HAL_Init();
 
   /* USER CODE BEGIN Init */
 
@@ -100,23 +101,24 @@ int main(void)
   MX_TIM8_Init();
   /* USER CODE BEGIN 2 */
 	HAL_TIM_Base_Start_IT(&htim4);
-	HAL_TIM_Base_Start_IT(&htim3);
-	HAL_TIM_Base_Start_IT(&htim5);
+	//HAL_TIM_Base_Start_IT(&htim3);
+	//HAL_TIM_Base_Start_IT(&htim5);
 
 	HAL_GPIO_WritePin(ENABLE_GPIO_Port, ENABLE_Pin, GPIO_PIN_RESET); //ENABLE
 	/*
 	 stepper_init(obj, resol, microstep, enable_port, direction_port, timer slave, timerpwm*/
-	stepper_init(&stp1, &htim1, &htim4, 1.8, 5, DIRECTION1_GPIO_Port,
-			DIRECTION1_Pin);
+	stepper_init(&stp1, &htim1, &htim4, 1.8, 1, DIRECTION1_GPIO_Port,
+	DIRECTION1_Pin);
 
-	stepper_init(&stp2, &htim2, &htim3, 1.8, 6.4, DIRECTION2_GPIO_Port,
-			DIRECTION2_Pin);
-	stepper_init(&stp3, &htim2, &htim3, 1.8, 6.4, DIRECTION3_GPIO_Port,
-			DIRECTION3_Pin);
-	stepper_init(&stp4, &htim8, &htim5, 1.8, 4, DIRECTION4_GPIO_Port,
-			DIRECTION4_Pin);
+	//stepper_init(&stp2, &htim2, &htim3, 1.8, 6.4, DIRECTION2_GPIO_Port,
+	//DIRECTION2_Pin);
+	//stepper_init(&stp3, &htim2, &htim3, 1.8, 6.4, DIRECTION3_GPIO_Port,
+	//DIRECTION3_Pin);
+	//stepper_init(&stp4, &htim8, &htim5, 1.8, 4, DIRECTION4_GPIO_Port,
+	//DIRECTION4_Pin);
 
-	stepper_move(&stp1, CLOCKWISE, 45, 2); //SET REGISTERS FOR THE MOVEMENT
+	stepper_move(&stp1, CLOCKWISE, 45, 45); //SET REGISTERS FOR THE MOVEMENT
+
 	HAL_TIM_PWM_Start_IT(stp1.pwm_timer, TIM_CHANNEL_1); //START PWM
 	//HAL_Delay(2000);
 
@@ -125,12 +127,10 @@ int main(void)
 	//HAL_TIM_PWM_Start_IT(stp2.pwm_timer, TIM_CHANNEL_1); //START PWM
 	//HAL_TIM_PWM_Start_IT(stp3.pwm_timer, TIM_CHANNEL_2); //START PWM
 
-
 	//stepper_move(&stp4, CLOCKWISE, 100, 2); //SET REGISTERS FOR THE MOVEMENT
 	//HAL_TIM_PWM_Start_IT(stp4.pwm_timer, TIM_CHANNEL_1); //START PWM
 
 	//HAL_Delay(2000);
-
 
   /* USER CODE END 2 */
 

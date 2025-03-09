@@ -1,27 +1,30 @@
 /* USER CODE BEGIN Header */
 /**
-  ******************************************************************************
-  * @file    tim.c
-  * @brief   This file provides code for the configuration
-  *          of the TIM instances.
-  ******************************************************************************
-  * @attention
-  *
-  * Copyright (c) 2025 STMicroelectronics.
-  * All rights reserved.
-  *
-  * This software is licensed under terms that can be found in the LICENSE file
-  * in the root directory of this software component.
-  * If no LICENSE file comes with this software, it is provided AS-IS.
-  *
-  ******************************************************************************
-  */
+ ******************************************************************************
+ * @file    tim.c
+ * @brief   This file provides code for the configuration
+ *          of the TIM instances.
+ ******************************************************************************
+ * @attention
+ *
+ * Copyright (c) 2025 STMicroelectronics.
+ * All rights reserved.
+ *
+ * This software is licensed under terms that can be found in the LICENSE file
+ * in the root directory of this software component.
+ * If no LICENSE file comes with this software, it is provided AS-IS.
+ *
+ ******************************************************************************
+ */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "tim.h"
 
 /* USER CODE BEGIN 0 */
-
+#include "stepper.h"
+extern int arr_des;
+int arr_current = ARR_START;
+extern int n_steps;
 /* USER CODE END 0 */
 
 TIM_HandleTypeDef htim1;
@@ -48,9 +51,9 @@ void MX_TIM1_Init(void)
 
   /* USER CODE END TIM1_Init 1 */
   htim1.Instance = TIM1;
-  htim1.Init.Prescaler = 8;
+  htim1.Init.Prescaler = 150;
   htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim1.Init.Period = 65535;
+  htim1.Init.Period = 20000;
   htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim1.Init.RepetitionCounter = 0;
   htim1.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
@@ -629,30 +632,88 @@ void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef* tim_baseHandle)
 /* USER CODE BEGIN 1 */
 
 //slave timer disable the pwm of the master timer
-void  HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
-    if (htim->Instance == TIM5) {
-    	HAL_TIM_PWM_Stop_IT(&htim8, TIM_CHANNEL_1);
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
+	if (htim->Instance == TIM5) {
+		HAL_TIM_PWM_Stop_IT(&htim8, TIM_CHANNEL_1);
 
-    }
-    if (htim->Instance == TIM3) {
-        	HAL_TIM_PWM_Stop_IT(&htim2, TIM_CHANNEL_1);
-        	HAL_TIM_PWM_Stop_IT(&htim2, TIM_CHANNEL_2);
-        }
+	}
+	if (htim->Instance == TIM3) {
+		HAL_TIM_PWM_Stop_IT(&htim2, TIM_CHANNEL_1);
+		HAL_TIM_PWM_Stop_IT(&htim2, TIM_CHANNEL_2);
+	}
 
-    if (htim->Instance == TIM4) {
-        	HAL_TIM_PWM_Stop_IT(&htim1, TIM_CHANNEL_1);
+	if (htim->Instance == TIM4) {
+		HAL_TIM_PWM_Stop_IT(&htim1, TIM_CHANNEL_1);
 
-        }
+	}
+
+	/* trapezoidal approach */
+	/*
+	 if (htim->Instance == TIM1) {
+	 if (flag == 1) {
+	 accel(htim);
+	 } else {
+	 // deceleration phase
+	 counter = 0; // reset counter
+	 __HAL_TIM_SET_PRESCALER(htim, htim->Instance->PSC + 1);
+	 htim->Instance->EGR = TIM_EGR_UG;
+	 }
+	 }*/
 
 }
 
+//arr_current=ARR_START
+void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim) {
+
+	if (htim->Instance == TIM1) {
+
+		if (arr_des < arr_current) { //arr has to be greater than the arr that starts the motor
+			__HAL_TIM_SET_AUTORELOAD(htim, ARR_START);
+			__HAL_TIM_SET_PRESCALER(&htim4, ARR_START);
+		}
+
+		if (arr_des > arr_current
+				&& __HAL_TIM_GET_COUNTER(&htim4) <= (int) (n_steps * 3 / 4)) { //acceleration
+
+			arr_current += ACCEL_RATE;
+			if (arr_current == ARR_MAX)
+				arr_current = ARR_MAX;
+			__HAL_TIM_SET_AUTORELOAD(htim, arr_current);
+			__HAL_TIM_SET_PRESCALER(&htim4, arr_current);
+
+		}
+
+		if (__HAL_TIM_GET_COUNTER(&htim4) > (int) (n_steps * 3 / 4)) { //deceleration phase
+			arr_current -= 1;
+			__HAL_TIM_SET_AUTORELOAD(htim, arr_current);
+			__HAL_TIM_SET_PRESCALER(&htim4, arr_current);
+		}
+
+	}
+}
+/*
+ void accel(TIM_HandleTypeDef *htim) {
+ float freq_calc = 84 * 1000000 / (65536 * htim->Instance->PSC);
+
+ if (freq_steps != freq_calc
+ && htim->Instance->CNT < (htim->Instance->ARR / 2)) { // freq_desired != actual_freq
+ __HAL_TIM_SET_PRESCALER(&htim1, &htim1.Instance->PSC - 1); // increase freq
+ htim->Instance->EGR = TIM_EGR_UG;
+ } else if (freq_steps >= freq_calc) {
+ counter += 1;
+
+ flag = 0; // decel
+
+ }
+ }*/
+
 //emergency stop button
-void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
-	if (GPIO_Pin==DISABLE_button_Pin){
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
+	if (GPIO_Pin == DISABLE_button_Pin) {
 		HAL_GPIO_WritePin(ENABLE_GPIO_Port, ENABLE_Pin, GPIO_PIN_SET); //ENABLE
 		__disable_irq();
 
-		while(1){
+		while (1) {
 
 		}
 	}
