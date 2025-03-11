@@ -21,6 +21,7 @@ void stepper_init(stepper_obj *stp, TIM_HandleTypeDef *pwm_timer,
 }
 int n_steps; //debug
 
+
 void stepper_move(stepper_obj *stp, direction_str direction, float position,
 		float freq) {
 

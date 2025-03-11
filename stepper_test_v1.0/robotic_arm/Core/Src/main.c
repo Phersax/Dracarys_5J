@@ -25,6 +25,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "stepper.h"
+#include "servo.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -49,6 +50,9 @@ stepper_obj stp1;
 stepper_obj stp2;
 stepper_obj stp3;
 stepper_obj stp4;
+servo_obj srv1;
+servo_obj srv2;
+int pwm;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -98,6 +102,8 @@ int main(void)
   MX_TIM2_Init();
   MX_TIM4_Init();
   MX_TIM8_Init();
+  MX_TIM10_Init();
+  MX_TIM11_Init();
   /* USER CODE BEGIN 2 */
 	HAL_TIM_Base_Start_IT(&htim4);
 	HAL_TIM_Base_Start_IT(&htim3);
@@ -113,21 +119,37 @@ int main(void)
 			DIRECTION2_Pin);
 	stepper_init(&stp3, &htim2, &htim3, 1.8, 6.4, DIRECTION3_GPIO_Port,
 			DIRECTION3_Pin);
-	stepper_init(&stp4, &htim8, &htim5, 1.8, 4, DIRECTION4_GPIO_Port,
+	stepper_init(&stp4, &htim8, &htim5, 1.8, 4.9, DIRECTION4_GPIO_Port,
 			DIRECTION4_Pin);
 
-	stepper_move(&stp1, CLOCKWISE, 45, 2); //SET REGISTERS FOR THE MOVEMENT
+	servo_init(&srv1, &htim10);
+	servo_init(&srv2, &htim11);
+
+	stepper_move(&stp1, CLOCKWISE, 60, 2); //SET REGISTERS FOR THE MOVEMENT
 	HAL_TIM_PWM_Start_IT(stp1.pwm_timer, TIM_CHANNEL_1); //START PWM
+
+	//stepper_move(&stp1, COUNTERCLOCKWISE, 360, 2); //SET REGISTERS FOR THE MOVEMENT
+	//HAL_TIM_PWM_Start_IT(stp1.pwm_timer, TIM_CHANNEL_1); //START PWM
 	//HAL_Delay(2000);
 
-	//stepper_move(&stp2, CLOCKWISE, 45, 2); //SET REGISTERS FOR THE MOVEMENT
-	//stepper_move(&stp3, COUNTERCLOCKWISE, 45, 2); //SET REGISTERS FOR THE MOVEMENT
-	//HAL_TIM_PWM_Start_IT(stp2.pwm_timer, TIM_CHANNEL_1); //START PWM
-	//HAL_TIM_PWM_Start_IT(stp3.pwm_timer, TIM_CHANNEL_2); //START PWM
+	stepper_move(&stp3, CLOCKWISE, 30, 2); //SET REGISTERS FOR THE MOVEMENT
+	stepper_move(&stp2, COUNTERCLOCKWISE, 30, 2); //SET REGISTERS FOR THE MOVEMENT
+	HAL_TIM_PWM_Start_IT(stp2.pwm_timer, TIM_CHANNEL_1); //START PWM
+	HAL_TIM_PWM_Start_IT(stp3.pwm_timer, TIM_CHANNEL_2); //START PWM
 
 
-	//stepper_move(&stp4, CLOCKWISE, 100, 2); //SET REGISTERS FOR THE MOVEMENT
-	//HAL_TIM_PWM_Start_IT(stp4.pwm_timer, TIM_CHANNEL_1); //START PWM
+	stepper_move(&stp4, CLOCKWISE, 30, 2); //SET REGISTERS FOR THE MOVEMENT
+	HAL_TIM_PWM_Start_IT(stp4.pwm_timer, TIM_CHANNEL_1); //START PWM
+
+
+
+	//servo_move(&srv1, 0);
+	//HAL_TIM_PWM_Start_IT(srv1.pwm_timer, TIM_CHANNEL_1); //START PWM
+
+	servo_move(&srv2, 30);
+	HAL_TIM_PWM_Start_IT(srv2.pwm_timer, TIM_CHANNEL_1); //START PWM
+	HAL_Delay(4000);
+	servo_move(&srv2, -60);
 
 	//HAL_Delay(2000);
 
@@ -137,6 +159,7 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 	while (1) {
+
 
     /* USER CODE END WHILE */
 
