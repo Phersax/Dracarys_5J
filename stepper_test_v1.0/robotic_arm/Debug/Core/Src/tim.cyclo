@@ -9,5 +9,6 @@
 ../Core/Src/tim.c:458:6:HAL_TIM_Base_MspInit	9
 ../Core/Src/tim.c:584:6:HAL_TIM_MspPostInit	6
 ../Core/Src/tim.c:696:6:HAL_TIM_Base_MspDeInit	9
-../Core/Src/tim.c:844:7:HAL_TIM_PeriodElapsedCallback	4
-../Core/Src/tim.c:862:6:HAL_GPIO_EXTI_Callback	2
+../Core/Src/tim.c:843:6:TIM_Cmd	2
+../Core/Src/tim.c:865:7:HAL_TIM_PeriodElapsedCallback	4
+../Core/Src/tim.c:886:6:HAL_GPIO_EXTI_Callback	2

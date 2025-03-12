@@ -26,7 +26,7 @@ typedef struct {
 
 void servo_init(servo_obj *srv, TIM_HandleTypeDef *pwm_timer); //set servo_obj
 
-void servo_move(servo_obj *srv,int position) ;
+void servo_move(servo_obj *srv,float position) ;
 
 
 #endif /* INC_SERVO_H_ */

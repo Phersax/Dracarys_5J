@@ -119,37 +119,37 @@ int main(void)
 			DIRECTION2_Pin);
 	stepper_init(&stp3, &htim2, &htim3, 1.8, 6.4, DIRECTION3_GPIO_Port,
 			DIRECTION3_Pin);
-	stepper_init(&stp4, &htim8, &htim5, 1.8, 4.9, DIRECTION4_GPIO_Port,
+	stepper_init(&stp4, &htim8, &htim5, 1.8, 1, DIRECTION4_GPIO_Port,
 			DIRECTION4_Pin);
 
 	servo_init(&srv1, &htim10);
 	servo_init(&srv2, &htim11);
 
-	stepper_move(&stp1, CLOCKWISE, 60, 2); //SET REGISTERS FOR THE MOVEMENT
-	HAL_TIM_PWM_Start_IT(stp1.pwm_timer, TIM_CHANNEL_1); //START PWM
+	stepper_move(&stp4, CLOCKWISE, 180, 2); //SET REGISTERS FOR THE MOVEMENT
+	HAL_TIM_PWM_Start_IT(stp4.pwm_timer, TIM_CHANNEL_1); //START PWM
 
 	//stepper_move(&stp1, COUNTERCLOCKWISE, 360, 2); //SET REGISTERS FOR THE MOVEMENT
 	//HAL_TIM_PWM_Start_IT(stp1.pwm_timer, TIM_CHANNEL_1); //START PWM
 	//HAL_Delay(2000);
 
-	stepper_move(&stp3, CLOCKWISE, 30, 2); //SET REGISTERS FOR THE MOVEMENT
-	stepper_move(&stp2, COUNTERCLOCKWISE, 30, 2); //SET REGISTERS FOR THE MOVEMENT
-	HAL_TIM_PWM_Start_IT(stp2.pwm_timer, TIM_CHANNEL_1); //START PWM
-	HAL_TIM_PWM_Start_IT(stp3.pwm_timer, TIM_CHANNEL_2); //START PWM
+	//stepper_move(&stp3, CLOCKWISE, 30, 2); //SET REGISTERS FOR THE MOVEMENT
+	//stepper_move(&stp2, COUNTERCLOCKWISE, 30, 2); //SET REGISTERS FOR THE MOVEMENT
+	//HAL_TIM_PWM_Start_IT(stp2.pwm_timer, TIM_CHANNEL_1); //START PWM
+	//HAL_TIM_PWM_Start_IT(stp3.pwm_timer, TIM_CHANNEL_2); //START PWM
 
 
-	stepper_move(&stp4, CLOCKWISE, 30, 2); //SET REGISTERS FOR THE MOVEMENT
-	HAL_TIM_PWM_Start_IT(stp4.pwm_timer, TIM_CHANNEL_1); //START PWM
+	//stepper_move(&stp4, CLOCKWISE, 30, 2); //SET REGISTERS FOR THE MOVEMENT
+	//HAL_TIM_PWM_Start_IT(stp4.pwm_timer, TIM_CHANNEL_1); //START PWM
 
 
 
 	//servo_move(&srv1, 0);
 	//HAL_TIM_PWM_Start_IT(srv1.pwm_timer, TIM_CHANNEL_1); //START PWM
 
-	servo_move(&srv2, 30);
-	HAL_TIM_PWM_Start_IT(srv2.pwm_timer, TIM_CHANNEL_1); //START PWM
-	HAL_Delay(4000);
-	servo_move(&srv2, -60);
+	//servo_move(&srv2, 30);
+	//HAL_TIM_PWM_Start_IT(srv2.pwm_timer, TIM_CHANNEL_1); //START PWM
+	//HAL_Delay(4000);
+	//servo_move(&srv2, -60);
 
 	//HAL_Delay(2000);
 

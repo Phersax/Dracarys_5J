@@ -33,8 +33,9 @@ void stepper_move(stepper_obj *stp, direction_str direction, float position,
 
 	HAL_GPIO_WritePin(stp->direction_port, stp->direction_pin, direction); //DIRECTION
 
+
 	//set arr of timer-slave for the position step count
-	__HAL_TIM_SET_AUTORELOAD(stp->position_timer, (n_steps * stp->pwm_timer->Init.Prescaler) - 1);
+	__HAL_TIM_SET_AUTORELOAD(stp->position_timer, (n_steps * (stp->pwm_timer->Instance->PSC+1)) - 1);
 	reset_timers(stp);
 
 }

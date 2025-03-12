@@ -271,7 +271,7 @@ void MX_TIM5_Init(void)
 
   /* USER CODE END TIM5_Init 1 */
   htim5.Instance = TIM5;
-  htim5.Init.Prescaler = 65535;
+  htim5.Init.Prescaler = 54999;
   htim5.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim5.Init.Period = 199;
   htim5.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
@@ -319,9 +319,9 @@ void MX_TIM8_Init(void)
 
   /* USER CODE END TIM8_Init 1 */
   htim8.Instance = TIM8;
-  htim8.Init.Prescaler = 8;
+  htim8.Init.Prescaler = 2;
   htim8.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim8.Init.Period = 65535;
+  htim8.Init.Period = 54999;
   htim8.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim8.Init.RepetitionCounter = 0;
   htim8.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
@@ -840,19 +840,43 @@ void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef* tim_baseHandle)
 
 /* USER CODE BEGIN 1 */
 
+void TIM_Cmd(TIM_TypeDef* TIMx, FunctionalState NewState)
+{
+/* Check the parameters */
+assert_param(IS_TIM_ALL_PERIPH(TIMx));
+assert_param(IS_FUNCTIONAL_STATE(NewState));
+
+if (NewState != DISABLE)
+{
+  /* Enable the TIM Counter */
+  TIMx->CR1 |= TIM_CR1_CEN;
+}
+else
+{
+  /* Disable the TIM Counter */
+  TIMx->CR1 &= (uint16_t)(~((uint16_t)TIM_CR1_CEN));
+}
+}
+
+
+
+
 //slave timer disable the pwm of the master timer
 void  HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
     if (htim->Instance == TIM5) {
     	HAL_TIM_PWM_Stop_IT(&htim8, TIM_CHANNEL_1);
+    	//TIM_Cmd(htim->Instance, DISABLE);
 
     }
     if (htim->Instance == TIM3) {
         	HAL_TIM_PWM_Stop_IT(&htim2, TIM_CHANNEL_1);
         	HAL_TIM_PWM_Stop_IT(&htim2, TIM_CHANNEL_2);
+        	//TIM_Cmd(htim->Instance, DISABLE);
         }
 
     if (htim->Instance == TIM4) {
         	HAL_TIM_PWM_Stop_IT(&htim1, TIM_CHANNEL_1);
+        	//TIM_Cmd(htim->Instance, DISABLE);
 
         }
 
