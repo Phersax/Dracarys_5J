@@ -53,6 +53,7 @@ stepper_obj stp4;
 servo_obj srv1;
 servo_obj srv2;
 int pwm;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -112,34 +113,45 @@ int main(void)
 	HAL_GPIO_WritePin(ENABLE_GPIO_Port, ENABLE_Pin, GPIO_PIN_RESET); //ENABLE
 	/*
 	 stepper_init(obj, resol, microstep, enable_port, direction_port, timer slave, timerpwm*/
-	stepper_init(&stp1, &htim1, &htim4, 1.8, 5, DIRECTION1_GPIO_Port,
+	stepper_init(&stp1, &htim1, &htim4, 1.8, 4*4.27, DIRECTION1_GPIO_Port,
 			DIRECTION1_Pin);
 
-	stepper_init(&stp2, &htim2, &htim3, 1.8, 6.4, DIRECTION2_GPIO_Port,
+	stepper_init(&stp2, &htim2, &htim3, 1.8, 4*6, DIRECTION2_GPIO_Port,
 			DIRECTION2_Pin);
-	stepper_init(&stp3, &htim2, &htim3, 1.8, 6.4, DIRECTION3_GPIO_Port,
+	stepper_init(&stp3, &htim2, &htim3, 1.8, 4*6, DIRECTION3_GPIO_Port,
 			DIRECTION3_Pin);
-	stepper_init(&stp4, &htim8, &htim5, 1.8, 1, DIRECTION4_GPIO_Port,
+	stepper_init(&stp4, &htim8, &htim5, 1.8, 8*4.9, DIRECTION4_GPIO_Port,
 			DIRECTION4_Pin);
 
 	servo_init(&srv1, &htim10);
 	servo_init(&srv2, &htim11);
 
-	stepper_move(&stp4, CLOCKWISE, 180, 2); //SET REGISTERS FOR THE MOVEMENT
-	HAL_TIM_PWM_Start_IT(stp4.pwm_timer, TIM_CHANNEL_1); //START PWM
-
-	//stepper_move(&stp1, COUNTERCLOCKWISE, 360, 2); //SET REGISTERS FOR THE MOVEMENT
+	//stepper_move(&stp1, CLOCKWISE, 360, 2); //SET REGISTERS FOR THE MOVEMENT
+	//__HAL_TIM_SET_COMPARE(stp1.pwm_timer,TIM_CHANNEL_1,__HAL_TIM_GET_AUTORELOAD(stp1.pwm_timer)/2);
 	//HAL_TIM_PWM_Start_IT(stp1.pwm_timer, TIM_CHANNEL_1); //START PWM
-	//HAL_Delay(2000);
 
-	//stepper_move(&stp3, CLOCKWISE, 30, 2); //SET REGISTERS FOR THE MOVEMENT
-	//stepper_move(&stp2, COUNTERCLOCKWISE, 30, 2); //SET REGISTERS FOR THE MOVEMENT
+
+	//stepper_move(&stp3, CLOCKWISE, 90, 2); //SET REGISTERS FOR THE MOVEMENT
+	//stepper_move(&stp2, COUNTERCLOCKWISE, 90, 2); //SET REGISTERS FOR THE MOVEMENT
+	//__HAL_TIM_SET_COMPARE(stp2.pwm_timer,TIM_CHANNEL_1,__HAL_TIM_GET_AUTORELOAD(stp2.pwm_timer)/2);
+	//__HAL_TIM_SET_COMPARE(stp3.pwm_timer,TIM_CHANNEL_1,__HAL_TIM_GET_AUTORELOAD(stp3.pwm_timer)/2);
 	//HAL_TIM_PWM_Start_IT(stp2.pwm_timer, TIM_CHANNEL_1); //START PWM
 	//HAL_TIM_PWM_Start_IT(stp3.pwm_timer, TIM_CHANNEL_2); //START PWM
 
 
-	//stepper_move(&stp4, CLOCKWISE, 30, 2); //SET REGISTERS FOR THE MOVEMENT
-	//HAL_TIM_PWM_Start_IT(stp4.pwm_timer, TIM_CHANNEL_1); //START PWM
+
+
+	//stepper_move(&stp1, COUNTERCLOCKWISE, 180, 2); //SET REGISTERS FOR THE MOVEMENT
+	//__HAL_TIM_SET_COMPARE(stp1.pwm_timer,TIM_CHANNEL_1,__HAL_TIM_GET_AUTORELOAD(stp1.pwm_timer)/2);
+	//HAL_TIM_PWM_Start_IT(stp1.pwm_timer, TIM_CHANNEL_1); //START PWM
+
+
+
+
+
+	stepper_move(&stp4, COUNTERCLOCKWISE, 90, 2); //SET REGISTERS FOR THE MOVEMENT
+	__HAL_TIM_SET_COMPARE(stp4.pwm_timer,TIM_CHANNEL_1,__HAL_TIM_GET_AUTORELOAD(stp4.pwm_timer)/2);
+	HAL_TIM_PWM_Start_IT(stp4.pwm_timer, TIM_CHANNEL_1); //START PWM
 
 
 
@@ -185,14 +197,13 @@ void SystemClock_Config(void)
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
   */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
-  RCC_OscInitStruct.HSIState = RCC_HSI_ON;
-  RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
+  RCC_OscInitStruct.HSEState = RCC_HSE_ON;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
-  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
-  RCC_OscInitStruct.PLL.PLLM = 16;
-  RCC_OscInitStruct.PLL.PLLN = 336;
-  RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV4;
+  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
+  RCC_OscInitStruct.PLL.PLLM = 4;
+  RCC_OscInitStruct.PLL.PLLN = 84;
+  RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
   RCC_OscInitStruct.PLL.PLLQ = 2;
   RCC_OscInitStruct.PLL.PLLR = 2;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
@@ -207,7 +218,7 @@ void SystemClock_Config(void)
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
-  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
+  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV2;
 
   if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
   {

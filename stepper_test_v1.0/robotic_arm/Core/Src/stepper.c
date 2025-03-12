@@ -35,7 +35,9 @@ void stepper_move(stepper_obj *stp, direction_str direction, float position,
 
 
 	//set arr of timer-slave for the position step count
+
 	__HAL_TIM_SET_AUTORELOAD(stp->position_timer, (n_steps * (stp->pwm_timer->Instance->PSC+1)) - 1);
+
 	reset_timers(stp);
 
 }

@@ -11,4 +11,4 @@
 ../Core/Src/tim.c:696:6:HAL_TIM_Base_MspDeInit	16	static
 ../Core/Src/tim.c:843:6:TIM_Cmd	16	static
 ../Core/Src/tim.c:865:7:HAL_TIM_PeriodElapsedCallback	16	static
-../Core/Src/tim.c:886:6:HAL_GPIO_EXTI_Callback	16	static,ignoring_inline_asm
+../Core/Src/tim.c:887:6:HAL_GPIO_EXTI_Callback	16	static,ignoring_inline_asm
