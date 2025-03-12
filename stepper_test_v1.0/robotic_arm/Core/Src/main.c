@@ -126,7 +126,37 @@ int main(void)
 	servo_init(&srv1, &htim10);
 	servo_init(&srv2, &htim11);
 
-	//stepper_move(&stp1, CLOCKWISE, 360, 2); //SET REGISTERS FOR THE MOVEMENT
+	servo_move(&srv2, 0);
+		servo_move(&srv1,0);
+
+		HAL_TIM_PWM_Start_IT(srv1.pwm_timer, TIM_CHANNEL_1); //START PWM)
+		HAL_TIM_PWM_Start_IT(srv2.pwm_timer, TIM_CHANNEL_1); //START PWM)
+
+	stp1.pwm_timer->Instance->ARR=65535;
+	stp1.position_timer->Instance->PSC=65535;
+	stepper_move(&stp1, COUNTERCLOCKWISE, 45, 2); //SET REGISTERS FOR THE MOVEMENT
+
+	HAL_Delay(3000);
+
+	stp1.pwm_timer->Instance->ARR=19999;
+	stp1.position_timer->Instance->PSC=19999;
+	stepper_move(&stp1, CLOCKWISE, 45, 2); //SET REGISTERS FOR THE MOVEMENT
+	/*
+	stepper_move(&stp2, CLOCKWISE, 90, 2); //SET REGISTERS FOR THE MOVEMENT
+	stepper_move(&stp3, COUNTERCLOCKWISE, 90, 2); //SET REGISTERS FOR THE MOVEMENT
+	stepper_move(&stp4,CLOCKWISE,140,2);
+
+	HAL_Delay(3000);
+
+	stepper_move(&stp1, CLOCKWISE, 90, 2); //SET REGISTERS FOR THE MOVEMENT
+	HAL_Delay(3000);
+
+	stepper_move(&stp2, COUNTERCLOCKWISE, 90, 2); //SET REGISTERS FOR THE MOVEMENT
+	stepper_move(&stp3, CLOCKWISE, 90, 2); //SET REGISTERS FOR THE MOVEMENT
+	stepper_move(&stp4,COUNTERCLOCKWISE,140,2);*/
+
+
+
 	//__HAL_TIM_SET_COMPARE(stp1.pwm_timer,TIM_CHANNEL_1,__HAL_TIM_GET_AUTORELOAD(stp1.pwm_timer)/2);
 	//HAL_TIM_PWM_Start_IT(stp1.pwm_timer, TIM_CHANNEL_1); //START PWM
 
@@ -149,9 +179,8 @@ int main(void)
 
 
 
-	stepper_move(&stp4, COUNTERCLOCKWISE, 90, 2); //SET REGISTERS FOR THE MOVEMENT
-	__HAL_TIM_SET_COMPARE(stp4.pwm_timer,TIM_CHANNEL_1,__HAL_TIM_GET_AUTORELOAD(stp4.pwm_timer)/2);
-	HAL_TIM_PWM_Start_IT(stp4.pwm_timer, TIM_CHANNEL_1); //START PWM
+	//stepper_move(&stp4, COUNTERCLOCKWISE, 90, 2); //SET REGISTERS FOR THE MOVEMENT
+
 
 
 

@@ -36,9 +36,23 @@ void stepper_move(stepper_obj *stp, direction_str direction, float position,
 
 	//set arr of timer-slave for the position step count
 
-	__HAL_TIM_SET_AUTORELOAD(stp->position_timer, (n_steps * (stp->pwm_timer->Instance->PSC+1)) - 1);
 
 	reset_timers(stp);
+
+	__HAL_TIM_SET_AUTORELOAD(stp->position_timer, (n_steps * (stp->pwm_timer->Instance->PSC+1)) - 1);
+	__HAL_TIM_SET_COMPARE(stp->pwm_timer,TIM_CHANNEL_1,__HAL_TIM_GET_AUTORELOAD(stp->pwm_timer)/2);
+
+	if (stp->pwm_timer->Instance==TIM2){
+		__HAL_TIM_SET_COMPARE(stp->pwm_timer,TIM_CHANNEL_2,__HAL_TIM_GET_AUTORELOAD(stp->pwm_timer)/2);
+		}
+
+
+	HAL_TIM_PWM_Start_IT(stp->pwm_timer, TIM_CHANNEL_1); //START PWM
+	if (stp->pwm_timer->Instance==TIM2){
+		HAL_TIM_PWM_Start_IT(stp->pwm_timer, TIM_CHANNEL_2); //START PWM)
+	}
+
+
 
 }
 
