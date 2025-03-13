@@ -51,9 +51,9 @@ void MX_TIM1_Init(void)
 
   /* USER CODE END TIM1_Init 1 */
   htim1.Instance = TIM1;
-  htim1.Init.Prescaler = 150;
+  htim1.Init.Prescaler = 4;
   htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim1.Init.Period = 20000;
+  htim1.Init.Period = 65535;
   htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim1.Init.RepetitionCounter = 0;
   htim1.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
@@ -630,7 +630,7 @@ void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef* tim_baseHandle)
 }
 
 /* USER CODE BEGIN 1 */
-
+void TIM_Cmd(TIM_TypeDef* TIMx, FunctionalState NewState);
 //slave timer disable the pwm of the master timer
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 	if (htim->Instance == TIM5) {
@@ -644,6 +644,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 
 	if (htim->Instance == TIM4) {
 		HAL_TIM_PWM_Stop_IT(&htim1, TIM_CHANNEL_1);
+		TIM_Cmd(htim->Instance, DISABLE);
 
 	}
 
@@ -662,31 +663,66 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 
 }
 
+
+
+void TIM_Cmd(TIM_TypeDef* TIMx, FunctionalState NewState)
+{
+/* Check the parameters */
+assert_param(IS_TIM_ALL_PERIPH(TIMx));
+assert_param(IS_FUNCTIONAL_STATE(NewState));
+
+if (NewState != DISABLE)
+{
+  /* Enable the TIM Counter */
+  TIMx->CR1 |= TIM_CR1_CEN;
+}
+else
+{
+  /* Disable the TIM Counter */
+  TIMx->CR1 &= (uint16_t)(~((uint16_t)TIM_CR1_CEN));
+}
+}
+
+
+
+
+
+
+
 //arr_current=ARR_START
 void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim) {
 
 	if (htim->Instance == TIM1) {
 
-		if (arr_des < arr_current) { //arr has to be greater than the arr that starts the motor
+		if (arr_des > arr_current) { //arr has to be greater than the arr that starts the motor
 			__HAL_TIM_SET_AUTORELOAD(htim, ARR_START);
 			__HAL_TIM_SET_PRESCALER(&htim4, ARR_START);
+			__HAL_TIM_SET_COMPARE(htim, TIM_CHANNEL_1,
+							__HAL_TIM_GET_AUTORELOAD(htim)/2);
+
 		}
 
-		if (arr_des > arr_current
+		if (arr_des < arr_current
 				&& __HAL_TIM_GET_COUNTER(&htim4) <= (int) (n_steps * 3 / 4)) { //acceleration
 
-			arr_current += ACCEL_RATE;
+			arr_current -= ACCEL_RATE;
 			if (arr_current == ARR_MAX)
 				arr_current = ARR_MAX;
 			__HAL_TIM_SET_AUTORELOAD(htim, arr_current);
 			__HAL_TIM_SET_PRESCALER(&htim4, arr_current);
+			__HAL_TIM_SET_COMPARE(htim, TIM_CHANNEL_1,
+										__HAL_TIM_GET_AUTORELOAD(htim)/2);
 
 		}
 
 		if (__HAL_TIM_GET_COUNTER(&htim4) > (int) (n_steps * 3 / 4)) { //deceleration phase
-			arr_current -= 1;
+			arr_current += 1;
+			if (arr_current == ARR_START)
+							arr_current = ARR_START;
 			__HAL_TIM_SET_AUTORELOAD(htim, arr_current);
 			__HAL_TIM_SET_PRESCALER(&htim4, arr_current);
+			__HAL_TIM_SET_COMPARE(htim, TIM_CHANNEL_1,
+										__HAL_TIM_GET_AUTORELOAD(htim)/2);
 		}
 
 	}
@@ -718,4 +754,5 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
 		}
 	}
 }
+
 /* USER CODE END 1 */
