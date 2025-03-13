@@ -43,8 +43,6 @@ void stepper_init(stepper_obj *stp, TIM_HandleTypeDef *pwm_timer,
 void stepper_move(stepper_obj *stp, direction_str direction, float position,
 		float freq_steps);
 
-void trapezodial_profile(stepper_obj *stp,float freq_steps, float n_steps);
-
 void reset_timers(stepper_obj *stp);
 
 #endif /* INC_STEPPER_H_ */
