@@ -1,8 +1,6 @@
 #include <stepper.h>
 
-extern TIM_HandleTypeDef htim3;
-
-//definisco l'oggetto stepper con i seguenti parametri
+//definisco la struct stepper con i seguenti parametri
 
 void stepper_init(stepper_obj *stp, TIM_HandleTypeDef *pwm_timer,
 		TIM_HandleTypeDef *position_timer, float stepper_resolution,
@@ -19,8 +17,12 @@ void stepper_init(stepper_obj *stp, TIM_HandleTypeDef *pwm_timer,
 	stp->step_per_rev = 360.0f / stepper_resolution; // 360°/resolution
 	stp->step_scale = stp->step_per_rev * microstep;
 }
+
+
+
 int n_steps; //debug
 
+static int flag_configured_timer2 = 0;
 
 void stepper_move(stepper_obj *stp, direction_str direction, float position,
 		float freq) {
@@ -29,31 +31,35 @@ void stepper_move(stepper_obj *stp, direction_str direction, float position,
 
 	//float freq_steps = stp->step_scale * freq / 360.0f; //[n_steps/s]
 
-	//trapezoidal_profile(freq_steps, position);
-
 	HAL_GPIO_WritePin(stp->direction_port, stp->direction_pin, direction); //DIRECTION
 
+	if (stp->pwm_timer->Instance != TIM2) {
 
-	//set arr of timer-slave for the position step count
+		reset_timers(stp);
 
+		__HAL_TIM_SET_AUTORELOAD(stp->position_timer,
+				(n_steps * (stp->pwm_timer->Instance->PSC + 1)) - 1);
+		__HAL_TIM_SET_COMPARE(stp->pwm_timer, TIM_CHANNEL_1,
+				__HAL_TIM_GET_AUTORELOAD(stp->pwm_timer)/2);
 
-	reset_timers(stp);
+		HAL_TIM_PWM_Start_IT(stp->pwm_timer, TIM_CHANNEL_1); //START PWM
 
-	__HAL_TIM_SET_AUTORELOAD(stp->position_timer, (n_steps * (stp->pwm_timer->Instance->PSC+1)) - 1);
-	__HAL_TIM_SET_COMPARE(stp->pwm_timer,TIM_CHANNEL_1,__HAL_TIM_GET_AUTORELOAD(stp->pwm_timer)/2);
+	} else { //set parameters for the timer2 separately cause it has 2 channel
+		if (flag_configured_timer2 != 1) { //this cause the second stepper must be equal to the first one
+			reset_timers(stp);
+			__HAL_TIM_SET_AUTORELOAD(stp->position_timer,
+					(n_steps * (stp->pwm_timer->Instance->PSC + 1)) - 1);
+			__HAL_TIM_SET_COMPARE(stp->pwm_timer, TIM_CHANNEL_1,
+					__HAL_TIM_GET_AUTORELOAD(stp->pwm_timer)/2);
+			__HAL_TIM_SET_COMPARE(stp->pwm_timer, TIM_CHANNEL_2,
+					__HAL_TIM_GET_AUTORELOAD(stp->pwm_timer)/2);
 
-	if (stp->pwm_timer->Instance==TIM2){
-		__HAL_TIM_SET_COMPARE(stp->pwm_timer,TIM_CHANNEL_2,__HAL_TIM_GET_AUTORELOAD(stp->pwm_timer)/2);
+			HAL_TIM_PWM_Start_IT(stp->pwm_timer, TIM_CHANNEL_1); //START PWM
+			HAL_TIM_PWM_Start_IT(stp->pwm_timer, TIM_CHANNEL_2); //START PWM)
 		}
+		flag_configured_timer2 ^= 1;
 
-
-	HAL_TIM_PWM_Start_IT(stp->pwm_timer, TIM_CHANNEL_1); //START PWM
-	if (stp->pwm_timer->Instance==TIM2){
-		HAL_TIM_PWM_Start_IT(stp->pwm_timer, TIM_CHANNEL_2); //START PWM)
 	}
-
-
-
 }
 
 void reset_timers(stepper_obj *stp) {
@@ -64,27 +70,4 @@ void reset_timers(stepper_obj *stp) {
 
 }
 
-/*
- void trapezodial_profile(stepper_obj *stp, float freq_steps, float n_steps){
-
-
- float computed_q=0.5*freq_steps*freq_steps;
-
- if (computed_q <n_steps){
-
- __HAL_TIM_SET_AUTORELOAD(stp->position_timer, computed_q);
- stp->pwm_timer->Instance->EGR = TIM_EGR_UG; //reset the trigger
-
- __HAL_TIM_SET_PRESCALER(stp->pwm_timer,999);
- stp->pwm_timer->Instance->EGR = TIM_EGR_UG; //reset the trigger
- float arr=84*1000000/1000* 1/freq_steps;
- __HAL_TIM_SET_AUTORELOAD(stp->pwm_timer, arr);
- stp->pwm_timer->Instance->EGR = TIM_EGR_UG; //reset the trigger
-
- HAL_TIM_PWM_Stop_IT(stp->pwm_timer, TIM_CHANNEL_1);
-
-
- }
-
- }*/
 
