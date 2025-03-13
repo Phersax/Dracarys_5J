@@ -25,6 +25,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "stepper.h"
+#include "servo.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -50,7 +51,7 @@ stepper_obj stp2;
 stepper_obj stp3;
 stepper_obj stp4;
 
- int arr;
+ //int arr;
 
 /* USER CODE END PV */
 
@@ -120,9 +121,9 @@ int main(void)
 	//stepper_init(&stp4, &htim8, &htim5, 1.8, 4, DIRECTION4_GPIO_Port,
 	//DIRECTION4_Pin);
 
-	stepper_move(&stp1, CLOCKWISE, 45, 45); //SET REGISTERS FOR THE MOVEMENT
+	stepper_move(&stp1, CLOCKWISE, 180, 180); //SET REGISTERS FOR THE MOVEMENT
 
-	HAL_TIM_PWM_Start_IT(stp1.pwm_timer, TIM_CHANNEL_1); //START PWM
+	//HAL_TIM_PWM_Start_IT(stp1.pwm_timer, TIM_CHANNEL_1); //START PWM
 	//HAL_Delay(2000);
 
 	//stepper_move(&stp2, CLOCKWISE, 45, 2); //SET REGISTERS FOR THE MOVEMENT
@@ -140,7 +141,7 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 	while (1) {
-		 arr= htim1.Instance->ARR;
+		 //arr= htim1.Instance->ARR;
 
     /* USER CODE END WHILE */
 

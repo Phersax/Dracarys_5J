@@ -63,11 +63,11 @@ void stepper_move(stepper_obj *stp, direction_str direction, float position,
 		flag_configured_timer2 ^= 1;
 
 	}
+	n_steps=n_steps * (stp->pwm_timer->Instance->PSC + 1);
 }
 
 void reset_timers(stepper_obj *stp) {
-	__HAL_TIM_SET_COUNTER(stp->position_timer, 0);
-	__HAL_TIM_SET_COUNTER(stp->pwm_timer, 0);
+
 	stp->pwm_timer->Instance->EGR = TIM_EGR_UG; //reset the trigger
 	stp->position_timer->Instance->EGR = TIM_EGR_UG; //reset the trigger
 

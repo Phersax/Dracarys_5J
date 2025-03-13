@@ -630,6 +630,9 @@ void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef* tim_baseHandle)
 }
 
 /* USER CODE BEGIN 1 */
+int count;
+
+
 void TIM_Cmd(TIM_TypeDef* TIMx, FunctionalState NewState);
 //slave timer disable the pwm of the master timer
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
@@ -644,22 +647,9 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 
 	if (htim->Instance == TIM4) {
 		HAL_TIM_PWM_Stop_IT(&htim1, TIM_CHANNEL_1);
-		TIM_Cmd(htim->Instance, DISABLE);
 
 	}
 
-	/* trapezoidal approach */
-	/*
-	 if (htim->Instance == TIM1) {
-	 if (flag == 1) {
-	 accel(htim);
-	 } else {
-	 // deceleration phase
-	 counter = 0; // reset counter
-	 __HAL_TIM_SET_PRESCALER(htim, htim->Instance->PSC + 1);
-	 htim->Instance->EGR = TIM_EGR_UG;
-	 }
-	 }*/
 
 }
 
@@ -688,17 +678,20 @@ else
 
 
 
-
-//arr_current=ARR_START
 void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim) {
 
 	if (htim->Instance == TIM1) {
+		count++;
 
 		if (arr_des > arr_current) { //arr has to be greater than the arr that starts the motor
-			__HAL_TIM_SET_AUTORELOAD(htim, ARR_START);
 			__HAL_TIM_SET_PRESCALER(&htim4, ARR_START);
+			__HAL_TIM_SET_AUTORELOAD(htim, ARR_START);
 			__HAL_TIM_SET_COMPARE(htim, TIM_CHANNEL_1,
-							__HAL_TIM_GET_AUTORELOAD(htim)/2);
+									__HAL_TIM_GET_AUTORELOAD(htim)/2);
+
+
+
+
 
 		}
 
@@ -706,27 +699,36 @@ void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim) {
 				&& __HAL_TIM_GET_COUNTER(&htim4) <= (int) (n_steps * 3 / 4)) { //acceleration
 
 			arr_current -= ACCEL_RATE;
-			if (arr_current == ARR_MAX)
+			if (arr_current <= ARR_MAX)
 				arr_current = ARR_MAX;
-			__HAL_TIM_SET_AUTORELOAD(htim, arr_current);
 			__HAL_TIM_SET_PRESCALER(&htim4, arr_current);
+			__HAL_TIM_SET_AUTORELOAD(htim, arr_current);
 			__HAL_TIM_SET_COMPARE(htim, TIM_CHANNEL_1,
 										__HAL_TIM_GET_AUTORELOAD(htim)/2);
+
+
+
+
 
 		}
 
 		if (__HAL_TIM_GET_COUNTER(&htim4) > (int) (n_steps * 3 / 4)) { //deceleration phase
-			arr_current += 1;
+			arr_current += ACCEL_RATE;
 			if (arr_current == ARR_START)
-							arr_current = ARR_START;
-			__HAL_TIM_SET_AUTORELOAD(htim, arr_current);
+							arr_current = ARR_START-1;
 			__HAL_TIM_SET_PRESCALER(&htim4, arr_current);
+			__HAL_TIM_SET_AUTORELOAD(htim, arr_current);
 			__HAL_TIM_SET_COMPARE(htim, TIM_CHANNEL_1,
-										__HAL_TIM_GET_AUTORELOAD(htim)/2);
+												__HAL_TIM_GET_AUTORELOAD(htim)/2);
+
+
+
+
 		}
 
 	}
 }
+
 /*
  void accel(TIM_HandleTypeDef *htim) {
  float freq_calc = 84 * 1000000 / (65536 * htim->Instance->PSC);
