@@ -121,7 +121,9 @@ int main(void)
 	//stepper_init(&stp4, &htim8, &htim5, 1.8, 4, DIRECTION4_GPIO_Port,
 	//DIRECTION4_Pin);
 
-	stepper_move(&stp1, CLOCKWISE, 180, 180); //SET REGISTERS FOR THE MOVEMENT
+	stepper_move(&stp1, CLOCKWISE, 180, 45); //SET REGISTERS FOR THE MOVEMENT
+	HAL_Delay(10000);
+	stepper_move(&stp1, COUNTERCLOCKWISE, 180, 45); //SET REGISTERS FOR THE MOVEMENT
 
 	//HAL_TIM_PWM_Start_IT(stp1.pwm_timer, TIM_CHANNEL_1); //START PWM
 	//HAL_Delay(2000);

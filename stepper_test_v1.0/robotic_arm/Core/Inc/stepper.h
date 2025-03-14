@@ -9,7 +9,7 @@
 #define INC_STEPPER_H_
 #include "main.h"
 
-#define ACCEL_RATE 20 //1 OR 2 CHANGED THE GRANULARITY
+#define ACCEL_RATE 500 //1 OR 2 CHANGED THE GRANULARITY
 #define ARR_START 65535 //min_freq
 #define ARR_MAX 19999 //max_freq
 
