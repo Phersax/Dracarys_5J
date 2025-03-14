@@ -8,6 +8,6 @@
 ../Core/Src/tim.c:437:6:HAL_TIM_MspPostInit	48	static
 ../Core/Src/tim.c:501:6:HAL_TIM_Base_MspDeInit	16	static
 ../Core/Src/tim.c:583:6:HAL_TIM_PeriodElapsedCallback	16	static
-../Core/Src/tim.c:601:6:TIM_Cmd	16	static
-../Core/Src/tim.c:618:6:HAL_TIM_PWM_PulseFinishedCallback	16	static
-../Core/Src/tim.c:683:6:HAL_GPIO_EXTI_Callback	16	static,ignoring_inline_asm
+../Core/Src/tim.c:602:6:TIM_Cmd	16	static
+../Core/Src/tim.c:621:6:HAL_TIM_PWM_PulseFinishedCallback	16	static
+../Core/Src/tim.c:692:6:HAL_GPIO_EXTI_Callback	16	static,ignoring_inline_asm

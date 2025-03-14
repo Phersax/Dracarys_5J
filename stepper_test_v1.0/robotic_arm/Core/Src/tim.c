@@ -592,7 +592,8 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 
 	if (htim->Instance == TIM4) {
 		HAL_TIM_PWM_Stop_IT(&htim1, TIM_CHANNEL_1);
-		//TIM_Cmd(htim->Instance,DISABLE);
+		TIM_Cmd(htim->Instance, DISABLE);
+		TIM_Cmd(htim1.Instance, DISABLE);
 
 	}
 
@@ -612,9 +613,11 @@ void TIM_Cmd(TIM_TypeDef *TIMx, FunctionalState NewState) {
 	}
 }
 
-//int arr[20000];
+//int arr[2000];
 //int i;
 int count = 0;
+int acc_count;
+int dec_count;
 void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim) {
 
 	//arr[i]=arr_current;
@@ -623,16 +626,16 @@ void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim) {
 	if (htim->Instance == TIM1) {
 
 		/*if (arr_des > arr_current) { //arr has to be greater than the arr that starts the motor
-			__HAL_TIM_SET_PRESCALER(&htim4, ARR_START);
-			__HAL_TIM_SET_AUTORELOAD(htim, ARR_START);
-			__HAL_TIM_SET_COMPARE(htim, TIM_CHANNEL_1,
-					__HAL_TIM_GET_AUTORELOAD(htim)/2);
+		 __HAL_TIM_SET_PRESCALER(&htim4, ARR_START);
+		 __HAL_TIM_SET_AUTORELOAD(htim, ARR_START);
+		 __HAL_TIM_SET_COMPARE(htim, TIM_CHANNEL_1,
+		 __HAL_TIM_GET_AUTORELOAD(htim)/2);
 
-		}*/
+		 }*/
 
-		if (arr_des < arr_current
-				&& __HAL_TIM_GET_COUNTER(&htim4)
-						<= (int) (n_steps / 5 * 2 / 4)) { //acceleration
+		if (arr_des < (arr_current - ACCEL_RATE)
+				&& (int) __HAL_TIM_GET_COUNTER(&htim4)/5
+						<= (int) (n_steps * 2 / 4)) { //acceleration
 
 			arr_current -= ACCEL_RATE;
 			if (arr_current <= ARR_MAX)
@@ -642,13 +645,15 @@ void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim) {
 			__HAL_TIM_SET_AUTORELOAD(htim, arr_current);
 			__HAL_TIM_SET_COMPARE(htim, TIM_CHANNEL_1,
 					__HAL_TIM_GET_AUTORELOAD(htim)/2);
+			acc_count++;
 
 		}
 
 		else {
 			if (arr_des >= (arr_current - ACCEL_RATE) && arr_current > arr_des
 
-			&& __HAL_TIM_GET_COUNTER(&htim4) <= (int) (n_steps / 5 * 2 / 4)) {
+					&& (int) __HAL_TIM_GET_COUNTER(&htim4)/5
+							<= (int) (n_steps * 2 / 4)) {
 
 				__HAL_TIM_SET_PRESCALER(&htim4, arr_des);
 				__HAL_TIM_SET_AUTORELOAD(htim, arr_des);
@@ -658,21 +663,25 @@ void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim) {
 			}
 
 			else {
-				if (__HAL_TIM_GET_COUNTER(&htim4)
-						> (int) (n_steps / 5 * 2 / 4)) { //deceleration phase
-					if (count <= 0) {
-						arr_current += ACCEL_RATE;
-						if (arr_current >= (ARR_START + ACCEL_RATE))
-							arr_current = ARR_START - ACCEL_RATE;
-						__HAL_TIM_SET_PRESCALER(&htim4, arr_current);
-						__HAL_TIM_SET_AUTORELOAD(htim, arr_current);
-						__HAL_TIM_SET_COMPARE(htim, TIM_CHANNEL_1,
-								__HAL_TIM_GET_AUTORELOAD(htim)/2);
-					}
-					if (count > 0) {
-						count--;
-					}
+				/*if (__HAL_TIM_GET_COUNTER(&htim4)
+				 > (int) (n_steps / 5 * 2 / 4)) { //deceleration phase*/
+				if (count <= 0) {
+
+					arr_current += ACCEL_RATE;
+
+					if (arr_current >= (ARR_START + ACCEL_RATE))
+						arr_current = ARR_START - ACCEL_RATE;
+
+					__HAL_TIM_SET_PRESCALER(&htim4, arr_current);
+					__HAL_TIM_SET_AUTORELOAD(htim, arr_current);
+					__HAL_TIM_SET_COMPARE(htim, TIM_CHANNEL_1,
+							__HAL_TIM_GET_AUTORELOAD(htim)/2);
+					dec_count++;
 				}
+				if (count > 0) {
+					count--;
+				}
+
 			}
 
 		}
