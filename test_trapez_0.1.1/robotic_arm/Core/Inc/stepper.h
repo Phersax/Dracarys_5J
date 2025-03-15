@@ -16,8 +16,6 @@ typedef struct {
 	//timers
 	TIM_HandleTypeDef *pwm_timer; //master timer
 	TIM_HandleTypeDef *position_timer; //SLAVE timer
-
-	float freq_steps;
 	//
 	GPIO_TypeDef *direction_port;
 	uint16_t direction_pin;

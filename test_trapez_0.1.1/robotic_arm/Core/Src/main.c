@@ -28,14 +28,17 @@
 #include "servo.h"
 //#include "trapezoidal_profile.h"
 
-#define INCLUDE_FILE
 
-#ifdef INCLUDE_FILE
+#define TRAPEZOIDAL_PROFILE //COMMENT THIS IF YOU DON'T WANT THIS MOTION PROFILE FOR THE STEPPERS
+
+#ifdef TRAPEZOIDAL_PROFILE
+#include "trapezoidal_profile.h"
 #include "trapezoidal_profile.c"
 #endif
 
-
-
+#ifndef TRAPEZOIDAL_PROFILE
+#include "stp_callback.c"
+#endif
 
 /* USER CODE END Includes */
 
@@ -119,8 +122,8 @@ int main(void)
   MX_TIM11_Init();
   /* USER CODE BEGIN 2 */
 	HAL_TIM_Base_Start_IT(&htim4);
-	//HAL_TIM_Base_Start_IT(&htim3);
-	//HAL_TIM_Base_Start_IT(&htim5);
+	HAL_TIM_Base_Start_IT(&htim3);
+	HAL_TIM_Base_Start_IT(&htim5);
 
 	HAL_GPIO_WritePin(ENABLE_GPIO_Port, ENABLE_Pin, GPIO_PIN_RESET); //ENABLE
 	/*
@@ -128,21 +131,15 @@ int main(void)
 	stepper_init(&stp1, &htim1, &htim4, 1.8, 4 * 4.27, DIRECTION1_GPIO_Port,
 	DIRECTION1_Pin);
 
-	//stepper_init(&stp2, &htim2, &htim3, 1.8, 6.4, DIRECTION2_GPIO_Port,
-	//DIRECTION2_Pin);
-	//stepper_init(&stp3, &htim2, &htim3, 1.8, 6.4, DIRECTION3_GPIO_Port,
-	//DIRECTION3_Pin);
-	//stepper_init(&stp4, &htim8, &htim5, 1.8, 4, DIRECTION4_GPIO_Port,
-	//DIRECTION4_Pin);
+	stepper_init(&stp2, &htim2, &htim3, 1.8,4* 6, DIRECTION2_GPIO_Port,
+	DIRECTION2_Pin);
+	stepper_init(&stp3, &htim2, &htim3, 1.8,4* 6, DIRECTION3_GPIO_Port,
+	DIRECTION3_Pin);
+	stepper_init(&stp4, &htim8, &htim5, 1.8,8*4.9, DIRECTION4_GPIO_Port,
+	DIRECTION4_Pin);
 
 
-
-	htim1.Instance->ARR = 65535;
-	htim4.Instance->PSC = 65535;
-
-
-
-	stepper_move(&stp1, CLOCKWISE, 180, 45); //SET REGISTERS FOR THE MOVEMENT
+	stepper_move(&stp4, CLOCKWISE, 100, 100); //SET REGISTERS FOR THE MOVEMENT
 	HAL_Delay(6000);
 	//stepper_move(&stp1, COUNTERCLOCKWISE, 180, 45); //SET REGISTERS FOR THE MOVEMENT
 	//HAL_Delay(10000);

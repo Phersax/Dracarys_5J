@@ -1,7 +1,6 @@
 #include <stepper.h>
 
 //definisco la struct stepper con i seguenti parametri
-
 void stepper_init(stepper_obj *stp, TIM_HandleTypeDef *pwm_timer,
 		TIM_HandleTypeDef *position_timer, float stepper_resolution,
 		uint16_t microstep, GPIO_TypeDef *direction_port,
@@ -9,6 +8,7 @@ void stepper_init(stepper_obj *stp, TIM_HandleTypeDef *pwm_timer,
 
 	stp->position_timer = position_timer;
 	stp->pwm_timer = pwm_timer;
+
 	stp->direction_port = direction_port;
 	stp->direction_pin = direction_pin;
 
@@ -16,23 +16,27 @@ void stepper_init(stepper_obj *stp, TIM_HandleTypeDef *pwm_timer,
 	stp->microstep = microstep;
 	stp->step_per_rev = 360.0f / stepper_resolution; // 360°/resolution
 	stp->step_scale = stp->step_per_rev * microstep;
+
 }
 
+int n_steps_a[3]; //3 pwm timers
+int arr_des_a[3];
 
+static int flag_configured_timer2; //for the timer2 config
 
-int n_steps; //debug
-static int flag_configured_timer2;
-float freq_des_steps;
-int arr_des=20000;
+float freq_des_steps; //DEBUG
+static int arr_des = 20000;  //random value
+static int i=0; //counter
 
 void stepper_move(stepper_obj *stp, direction_str direction, float position,
 		float freq_desired) {
 
-	n_steps = stp->step_scale * position / 360.0f; //[n_steps]
+	int n_steps = stp->step_scale * position / 360.0f; //[n_steps]
 
 	freq_des_steps = stp->step_scale * freq_desired / 360.0f; //[n_steps/s]
 
-	arr_des= (84*1000000/freq_des_steps)/(stp->pwm_timer->Instance->PSC+1) -1;
+	arr_des = (84 * 1000000 / freq_des_steps)
+			/ (stp->pwm_timer->Instance->PSC + 1) - 1;
 
 	HAL_GPIO_WritePin(stp->direction_port, stp->direction_pin, direction); //DIRECTION
 
@@ -65,14 +69,26 @@ void stepper_move(stepper_obj *stp, direction_str direction, float position,
 		flag_configured_timer2 ^= 1;
 
 	}
-	n_steps=n_steps * (stp->pwm_timer->Instance->PSC + 1);
+	n_steps = n_steps * (stp->pwm_timer->Instance->PSC + 1);
+
+	if (stp->pwm_timer->Instance == TIM1){
+		 i = 0;}
+	else {
+		if (stp->pwm_timer->Instance == TIM2){
+			i = 1;}
+		else
+			i = 2;
+	}
+	n_steps_a[i]=n_steps;
+	arr_des_a[i]=arr_des;
+
 }
+
 
 void reset_timers(stepper_obj *stp) {
 
-	stp->pwm_timer->Instance->EGR = TIM_EGR_UG; //reset the trigger
-	stp->position_timer->Instance->EGR = TIM_EGR_UG; //reset the trigger
+stp->pwm_timer->Instance->EGR = TIM_EGR_UG; //reset the trigger
+stp->position_timer->Instance->EGR = TIM_EGR_UG; //reset the trigger
 
 }
-
 
