@@ -50,8 +50,10 @@ stepper_obj stp1;
 stepper_obj stp2;
 stepper_obj stp3;
 stepper_obj stp4;
+servo_obj srv1;
+servo_obj srv2;
 
- //int arr;
+//int arr;
 
 /* USER CODE END PV */
 
@@ -102,7 +104,8 @@ int main(void)
   MX_TIM2_Init();
   MX_TIM4_Init();
   MX_TIM8_Init();
-
+  MX_TIM10_Init();
+  MX_TIM11_Init();
   /* USER CODE BEGIN 2 */
 	HAL_TIM_Base_Start_IT(&htim4);
 	//HAL_TIM_Base_Start_IT(&htim3);
@@ -111,7 +114,7 @@ int main(void)
 	HAL_GPIO_WritePin(ENABLE_GPIO_Port, ENABLE_Pin, GPIO_PIN_RESET); //ENABLE
 	/*
 	 stepper_init(obj, resol, microstep, enable_port, direction_port, timer slave, timerpwm*/
-	stepper_init(&stp1, &htim1, &htim4, 1.8, 4*4.27, DIRECTION1_GPIO_Port,
+	stepper_init(&stp1, &htim1, &htim4, 1.8, 4 * 4.27, DIRECTION1_GPIO_Port,
 	DIRECTION1_Pin);
 
 	//stepper_init(&stp2, &htim2, &htim3, 1.8, 6.4, DIRECTION2_GPIO_Port,
@@ -121,10 +124,13 @@ int main(void)
 	//stepper_init(&stp4, &htim8, &htim5, 1.8, 4, DIRECTION4_GPIO_Port,
 	//DIRECTION4_Pin);
 
-	htim1.Instance->ARR=65535;
-	htim4.Instance->PSC=65535;
+
+	htim1.Instance->ARR = 65535;
+	htim4.Instance->PSC = 65535;
 
 	stepper_move(&stp1, CLOCKWISE, 180, 45); //SET REGISTERS FOR THE MOVEMENT
+	HAL_Delay(6000);
+	stepper_move(&stp1, COUNTERCLOCKWISE, 180, 45); //SET REGISTERS FOR THE MOVEMENT
 	//HAL_Delay(10000);
 	//stepper_move(&stp1, COUNTERCLOCKWISE, 180, 45); //SET REGISTERS FOR THE MOVEMENT
 
@@ -145,8 +151,8 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-while (1) {
-		 //arr= htim1.Instance->ARR;
+	while (1) {
+		//arr= htim1.Instance->ARR;
 
     /* USER CODE END WHILE */
 
