@@ -1,3 +1,0 @@
-../Core/Src/stepper.c:5:6:stepper_init	1
-../Core/Src/stepper.c:28:6:stepper_move	3
-../Core/Src/stepper.c:69:6:reset_timers	1
