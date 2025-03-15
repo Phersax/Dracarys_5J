@@ -26,6 +26,17 @@
 /* USER CODE BEGIN Includes */
 #include "stepper.h"
 #include "servo.h"
+//#include "trapezoidal_profile.h"
+
+#define INCLUDE_FILE
+
+#ifdef INCLUDE_FILE
+#include "trapezoidal_profile.c"
+#endif
+
+
+
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -125,12 +136,15 @@ int main(void)
 	//DIRECTION4_Pin);
 
 
+
 	htim1.Instance->ARR = 65535;
 	htim4.Instance->PSC = 65535;
 
+
+
 	stepper_move(&stp1, CLOCKWISE, 180, 45); //SET REGISTERS FOR THE MOVEMENT
 	HAL_Delay(6000);
-	stepper_move(&stp1, COUNTERCLOCKWISE, 180, 45); //SET REGISTERS FOR THE MOVEMENT
+	//stepper_move(&stp1, COUNTERCLOCKWISE, 180, 45); //SET REGISTERS FOR THE MOVEMENT
 	//HAL_Delay(10000);
 	//stepper_move(&stp1, COUNTERCLOCKWISE, 180, 45); //SET REGISTERS FOR THE MOVEMENT
 

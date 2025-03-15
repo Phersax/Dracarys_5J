@@ -14,10 +14,11 @@ void servo_init(servo_obj *srv, TIM_HandleTypeDef *pwm_timer) {
 	srv->pwm_timer->Instance->ARR=60000-1;
 
 }
-int ccr; //debug
+//int ccr; //debug
 
 void servo_move(servo_obj *srv, float position) {
 
+	int ccr;
 
 
 	//saturation
