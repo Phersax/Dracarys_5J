@@ -65,7 +65,7 @@ static stepper_obj stp3;
 static stepper_obj stp4;
 static servo_obj srv1;
 static servo_obj srv2;
-
+//int state;
 //int arr;
 
 /* USER CODE END PV */
@@ -145,9 +145,15 @@ int main(void)
 	//HAL_TIM_PWM_Start_IT(srv2.pwm_timer, TIM_CHANNEL_1); //START PWM)
 
 
-	stepper_move(&stp1, CLOCKWISE, 100, 100); //SET REGISTERS FOR THE MOVEMENT
+	stepper_move(&stp1, CLOCKWISE, 180, 45); //SET REGISTERS FOR THE MOVEMENT
+	//stepper_move(&stp3, CLOCKWISE, 100, 100);
+	//state = __HAL_TIM_GET_FLAG(&htim1, TIM_FLAG_UPDATE);
+	//HAL_Delay(7000);
+	//stepper_move(&stp1, CLOCKWISE, 100, 100);
 
-	HAL_Delay(6000);
+	//HAL_Delay(7000);
+	//stepper_move(&stp1, COUNTERCLOCKWISE, 100, 100);
+	//HAL_Delay(6000);
 	//stepper_move(&stp1, COUNTERCLOCKWISE, 180, 45); //SET REGISTERS FOR THE MOVEMENT
 	//HAL_Delay(10000);
 	//stepper_move(&stp1, COUNTERCLOCKWISE, 180, 45); //SET REGISTERS FOR THE MOVEMENT
@@ -171,7 +177,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
 	while (1) {
 		//arr= htim1.Instance->ARR;
-
+		//state = __HAL_TIM_GET_FLAG(&htim1, TIM_FLAG_UPDATE);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

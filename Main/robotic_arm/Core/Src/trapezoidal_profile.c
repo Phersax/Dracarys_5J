@@ -19,7 +19,7 @@ static unsigned int count_rising_edge[3]; //need this to have an artificial CNT 
 int acc_count; //debug
 int dec_count; //debug
 
-// int arr; //debug
+int arr; //debug
 
 void TIM_Cmd(TIM_TypeDef *TIMx, FunctionalState NewState) { //to disable the timers
 	/* Check the parameters */
@@ -149,11 +149,14 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 
 		if (htim->Instance->CNT >= htim->Instance->ARR) {
 			HAL_TIM_PWM_Stop_IT(&htim1, TIM_CHANNEL_1);
+
+
 			count_rising_edge[0] = 0;
-			//acc_count = 0;  //debug
-			//dec_count = 0; //debug
+			acc_count = 0;  //debug
+			dec_count = 0; //debug
 			htim->Instance->EGR |= TIM_EGR_UG;  //reset
 			htim1.Instance->EGR |= TIM_EGR_UG;
+			//__HAL_TIM_CLEAR_FLAG(&htim1, TIM_FLAG_UPDATE);
 
 			TIM_Cmd(htim->Instance, DISABLE); //disable the slave timer
 
@@ -168,7 +171,7 @@ void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim) {
 	if (htim->Instance == TIM1) {
 
 		count_rising_edge[0] += (htim->Instance->PSC+1);
-		//arr = -(__HAL_TIM_GET_AUTORELOAD(&htim1));  //debug graph
+		arr = -(__HAL_TIM_GET_AUTORELOAD(&htim1));  //debug graph
 		trapezoidal_func(0, htim, &htim4); //0,1,2 for the tipology of the timer
 
 	}

@@ -42,7 +42,7 @@ void stepper_move(stepper_obj *stp, direction_str direction, float position,
 
 	if (stp->pwm_timer->Instance != TIM2) {
 
-		reset_timers(stp);
+		//reset_timers(stp);
 
 		__HAL_TIM_SET_AUTORELOAD(stp->position_timer,
 				(n_steps * (stp->pwm_timer->Instance->PSC + 1)) - 1);
@@ -54,7 +54,7 @@ void stepper_move(stepper_obj *stp, direction_str direction, float position,
 	} else { //set parameters for the timer2 separately cause it has 2 channel
 		if (flag_configured_timer2 != 1) { //this cause the second stepper must be equal to the first one
 
-			reset_timers(stp);
+			//reset_timers(stp);
 			__HAL_TIM_SET_AUTORELOAD(stp->position_timer,
 					(n_steps * (stp->pwm_timer->Instance->PSC + 1)) - 1);
 			__HAL_TIM_SET_COMPARE(stp->pwm_timer, TIM_CHANNEL_1,
@@ -89,7 +89,7 @@ void stepper_move(stepper_obj *stp, direction_str direction, float position,
 void reset_timers(stepper_obj *stp) {
 
 	stp->pwm_timer->Instance->EGR = TIM_EGR_UG; //reset the trigger
-	stp->position_timer->Instance->EGR = TIM_EGR_UG; //reset the trigger
+	//stp->position_timer->Instance->EGR = TIM_EGR_UG; //reset the trigger
 
 }
 
