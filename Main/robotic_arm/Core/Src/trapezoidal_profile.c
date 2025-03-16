@@ -167,7 +167,7 @@ void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim) {
 
 	if (htim->Instance == TIM1) {
 
-		count_rising_edge[0] += htim->Instance->PSC+1;
+		count_rising_edge[0] += (htim->Instance->PSC+1);
 		//arr = -(__HAL_TIM_GET_AUTORELOAD(&htim1));  //debug graph
 		trapezoidal_func(0, htim, &htim4); //0,1,2 for the tipology of the timer
 
@@ -175,7 +175,7 @@ void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim) {
 
 	if (htim->Instance == TIM2) {
 
-		count_rising_edge[1] += htim->Instance->PSC+1;
+		count_rising_edge[1] += (htim->Instance->PSC+1);
 		//arr = -(__HAL_TIM_GET_AUTORELOAD(&htim1));  //debug graph
 		trapezoidal_func(1, htim, &htim3); //0,1,2 for the tipology of the timer
 
@@ -183,7 +183,7 @@ void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim) {
 
 	if (htim->Instance == TIM8) {
 
-		count_rising_edge[2] += 5;
+		count_rising_edge[2] += (htim->Instance->PSC+1);
 		//arr = -(__HAL_TIM_GET_AUTORELOAD(&htim1));  //debug graph
 		trapezoidal_func(2, htim, &htim5); //0,1,2 for the tipology of the timer
 
