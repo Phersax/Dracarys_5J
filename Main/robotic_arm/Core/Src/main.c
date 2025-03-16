@@ -59,12 +59,12 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-stepper_obj stp1;
-stepper_obj stp2;
-stepper_obj stp3;
-stepper_obj stp4;
-servo_obj srv1;
-servo_obj srv2;
+static stepper_obj stp1;
+static stepper_obj stp2;
+static stepper_obj stp3;
+static stepper_obj stp4;
+static servo_obj srv1;
+static servo_obj srv2;
 
 //int arr;
 
@@ -135,18 +135,18 @@ int main(void)
 	DIRECTION3_Pin);
 	stepper_init(&stp4, &htim8, &htim5, 1.8, 8 * 4.9, DIRECTION4_GPIO_Port,
 	DIRECTION4_Pin);
-	servo_init(&srv1, &htim10);
-	servo_init(&srv2, &htim11);
+	servo_init(&srv1, &htim10); //default position
+	servo_init(&srv2, &htim11); //default position
 
 
+	//servo_move(&srv1, 0);
+	//servo_move(&srv2, 0);
+	//HAL_TIM_PWM_Start_IT(srv1.pwm_timer, TIM_CHANNEL_1); //START PWM)
+	//HAL_TIM_PWM_Start_IT(srv2.pwm_timer, TIM_CHANNEL_1); //START PWM)
 
-	servo_move(&srv1, 0);
-	servo_move(&srv2, 0);
-	HAL_TIM_PWM_Start_IT(srv1.pwm_timer, TIM_CHANNEL_1); //START PWM)
-	HAL_TIM_PWM_Start_IT(srv2.pwm_timer, TIM_CHANNEL_1); //START PWM)
 
+	stepper_move(&stp1, CLOCKWISE, 100, 100); //SET REGISTERS FOR THE MOVEMENT
 
-	stepper_move(&stp4, CLOCKWISE, 100, 100); //SET REGISTERS FOR THE MOVEMENT
 	HAL_Delay(6000);
 	//stepper_move(&stp1, COUNTERCLOCKWISE, 180, 45); //SET REGISTERS FOR THE MOVEMENT
 	//HAL_Delay(10000);

@@ -26,16 +26,16 @@ static int flag_configured_timer2; //for the timer2 config
 
 float freq_des_steps; //DEBUG
 static int arr_des = 20000;  //random value
-static int i=0; //counter
 
 void stepper_move(stepper_obj *stp, direction_str direction, float position,
 		float freq_desired) {
 
+	int i = 0;
 	int n_steps = stp->step_scale * position / 360.0f; //[n_steps]
 
 	freq_des_steps = stp->step_scale * freq_desired / 360.0f; //[n_steps/s]
 
-	arr_des = (84 * 1000000 / freq_des_steps)
+	arr_des = (HAL_RCC_GetPCLK2Freq() * 2 / freq_des_steps)
 			/ (stp->pwm_timer->Instance->PSC + 1) - 1;
 
 	HAL_GPIO_WritePin(stp->direction_port, stp->direction_pin, direction); //DIRECTION
@@ -63,32 +63,33 @@ void stepper_move(stepper_obj *stp, direction_str direction, float position,
 			__HAL_TIM_SET_COMPARE(stp->pwm_timer, TIM_CHANNEL_2,
 					__HAL_TIM_GET_AUTORELOAD(stp->pwm_timer)/2);
 
+		} else {
 			HAL_TIM_PWM_Start_IT(stp->pwm_timer, TIM_CHANNEL_1); //START PWM
 			HAL_TIM_PWM_Start_IT(stp->pwm_timer, TIM_CHANNEL_2); //START PWM)
+
 		}
 		flag_configured_timer2 ^= 1;
 
 	}
 	n_steps = n_steps * (stp->pwm_timer->Instance->PSC + 1);
 
-	if (stp->pwm_timer->Instance == TIM1){
-		 i = 0;}
-	else {
-		if (stp->pwm_timer->Instance == TIM2){
-			i = 1;}
-		else
+	if (stp->pwm_timer->Instance == TIM1) {
+		i = 0;
+	} else {
+		if (stp->pwm_timer->Instance == TIM2) {
+			i = 1;
+		} else
 			i = 2;
 	}
-	n_steps_a[i]=n_steps;
-	arr_des_a[i]=arr_des;
+	n_steps_a[i] = n_steps;
+	arr_des_a[i] = arr_des;
 
 }
 
-
 void reset_timers(stepper_obj *stp) {
 
-stp->pwm_timer->Instance->EGR = TIM_EGR_UG; //reset the trigger
-stp->position_timer->Instance->EGR = TIM_EGR_UG; //reset the trigger
+	stp->pwm_timer->Instance->EGR = TIM_EGR_UG; //reset the trigger
+	stp->position_timer->Instance->EGR = TIM_EGR_UG; //reset the trigger
 
 }
 

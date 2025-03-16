@@ -8,21 +8,21 @@
 
 void servo_init(servo_obj *srv, TIM_HandleTypeDef *pwm_timer) {
 	srv->pwm_timer = pwm_timer;
-	srv->unit = (CCR_MAX - CCR_MIN) / (2*ANGLE_MAX);
+	srv->unit = (CCR_MAX - CCR_MIN) / (2 * ANGLE_MAX);
 	//pwm=50hz
-	srv->pwm_timer->Instance->PSC=27;
-	srv->pwm_timer->Instance->ARR=60000-1;
-
+	srv->pwm_timer->Instance->PSC = 27;
+	srv->pwm_timer->Instance->ARR = 60000 - 1;
+	__HAL_TIM_SET_COMPARE(srv->pwm_timer, TIM_CHANNEL_1,
+			(int) ((CCR_MAX + CCR_MIN) / 2));
+	HAL_TIM_PWM_Start_IT(srv->pwm_timer, TIM_CHANNEL_1); //START PWM)
 }
 int ccr; //debug
 
 void servo_move(servo_obj *srv, float position) {
 
-
-
 	//saturation
 	if (position > ANGLE_MAX)
-	position = ANGLE_MAX;//max angle position available
+		position = ANGLE_MAX; //max angle position available
 	if (position < -ANGLE_MAX)
 		position = -ANGLE_MAX; //min angle position available
 
@@ -35,8 +35,6 @@ void servo_move(servo_obj *srv, float position) {
 	}
 	__HAL_TIM_SET_COMPARE(srv->pwm_timer, TIM_CHANNEL_1, ccr); //deg=0
 	srv->pwm_timer->Instance->EGR = TIM_EGR_UG; //not relevant in this case
-
-
 
 }
 

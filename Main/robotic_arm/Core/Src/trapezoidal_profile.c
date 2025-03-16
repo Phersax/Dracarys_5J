@@ -15,7 +15,7 @@ int arr_max[3];
 static int arr_current[3] = { ARR_START_0 - ACCEL_RATE,
 ARR_START_1 - ACCEL_RATE, ARR_START_2 - ACCEL_RATE };
 
-int count_rising_edge[3]; //need this to have an artificial CNT reg of the timer slave for each master
+static unsigned int count_rising_edge[3]; //need this to have an artificial CNT reg of the timer slave for each master
 int acc_count; //debug
 int dec_count; //debug
 
@@ -65,7 +65,7 @@ void trapezoidal_func(int k, TIM_HandleTypeDef *htim, TIM_HandleTypeDef *hslave)
 		hslave->Instance->EGR |= TIM_EGR_UG;
 		hslave->Instance->CNT = count_rising_edge[k];
 
-		acc_count += 5; //debug
+		acc_count += (htim->Instance->PSC+1); //debug
 
 	}
 

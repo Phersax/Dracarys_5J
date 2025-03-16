@@ -73,8 +73,9 @@
 							<tool id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.objcopy.symbolsrec.212352640" name="MCU Output Converter Motorola S-rec with symbols" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.objcopy.symbolsrec"/>
 						</toolChain>
 					</folderInfo>
+					<fileInfo id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.1645049182.1378989703" name="trapezoidal_profile.h" rcbsApplicability="disable" resourcePath="Core/Inc/trapezoidal_profile.h" toolsToInvoke=""/>
 					<sourceEntries>
-						<entry excluding="Src/stp_callback.c|Src/trapezoidal_profile.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Core"/>
+						<entry excluding="Inc/trapezoidal_profile.h|Src/stp_callback.c|Src/trapezoidal_profile.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Core"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Drivers"/>
 					</sourceEntries>
 				</configuration>
@@ -149,8 +150,9 @@
 							<tool id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.objcopy.symbolsrec.1871998074" name="MCU Output Converter Motorola S-rec with symbols" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.objcopy.symbolsrec"/>
 						</toolChain>
 					</folderInfo>
+					<fileInfo id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.release.1567852414.534423879" name="trapezoidal_profile.h" rcbsApplicability="disable" resourcePath="Core/Inc/trapezoidal_profile.h" toolsToInvoke=""/>
 					<sourceEntries>
-						<entry excluding="Src/stp_callback.c|Src/trapezoidal_profile.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Core"/>
+						<entry excluding="Inc/trapezoidal_profile.h|Src/stp_callback.c|Src/trapezoidal_profile.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Core"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Drivers"/>
 					</sourceEntries>
 				</configuration>
