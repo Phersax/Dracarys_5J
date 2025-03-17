@@ -80,6 +80,10 @@ void Error_Handler(void);
 #define ENABLE_GPIO_Port GPIOC
 #define DIRECTION1_Pin GPIO_PIN_0
 #define DIRECTION1_GPIO_Port GPIOB
+#define SERVO_en_Pin GPIO_PIN_1
+#define SERVO_en_GPIO_Port GPIOB
+#define ENDEFF_en_Pin GPIO_PIN_2
+#define ENDEFF_en_GPIO_Port GPIOB
 #define PWM4_Pin GPIO_PIN_6
 #define PWM4_GPIO_Port GPIOC
 #define PWM1_Pin GPIO_PIN_8

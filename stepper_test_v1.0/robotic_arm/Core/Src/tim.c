@@ -886,7 +886,9 @@ void  HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
 //emergency stop button
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
 	if (GPIO_Pin==DISABLE_button_Pin){
-		HAL_GPIO_WritePin(ENABLE_GPIO_Port, ENABLE_Pin, GPIO_PIN_SET); //ENABLE
+		HAL_GPIO_WritePin(ENABLE_GPIO_Port, ENABLE_Pin, GPIO_PIN_SET); //It's a negated enable for these stepper mot
+		HAL_GPIO_WritePin(SERVO_en_GPIO_Port, SERVO_en_Pin, GPIO_PIN_RESET); //disable the servo
+		HAL_GPIO_WritePin(ENDEFF_en_GPIO_Port, ENDEFF_en_Pin, GPIO_PIN_RESET); //disable the end_eff
 		__disable_irq();
 
 		while(1){

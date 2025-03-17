@@ -11,7 +11,7 @@
 //#include "stepper.h"
 //#include "tim.h"
 
-#define ACCEL_RATE 50
+#define ACCEL_RATE 5
 
 //master timer 1 parameters:
 #define ARR_START_0 65535 //min_freq

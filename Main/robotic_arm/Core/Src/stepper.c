@@ -62,10 +62,11 @@ void stepper_move(stepper_obj *stp, direction_str direction, float position,
 
 			__HAL_TIM_SET_COMPARE(stp->pwm_timer, TIM_CHANNEL_2,
 					__HAL_TIM_GET_AUTORELOAD(stp->pwm_timer)/2);
+			HAL_TIM_PWM_Start_IT(stp->pwm_timer, TIM_CHANNEL_1); //START PWM
+						HAL_TIM_PWM_Start_IT(stp->pwm_timer, TIM_CHANNEL_2); //START PWM)
 
 		} else {
-			HAL_TIM_PWM_Start_IT(stp->pwm_timer, TIM_CHANNEL_1); //START PWM
-			HAL_TIM_PWM_Start_IT(stp->pwm_timer, TIM_CHANNEL_2); //START PWM)
+
 
 		}
 		flag_configured_timer2 ^= 1;
