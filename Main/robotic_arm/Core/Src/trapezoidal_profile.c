@@ -83,7 +83,7 @@ void trapezoidal_func(int k, TIM_HandleTypeDef *htim, TIM_HandleTypeDef *hslave)
 
 		}
 
-		else {/*
+		else {
 
 			if (cnt >= (n_steps_a[k] - acc_count)) { //deceleration phase
 				arr_current[k] += ACCEL_RATE;
@@ -101,7 +101,7 @@ void trapezoidal_func(int k, TIM_HandleTypeDef *htim, TIM_HandleTypeDef *hslave)
 
 				dec_count += 5; //debug
 
-			}*/
+			}
 
 		}
 
