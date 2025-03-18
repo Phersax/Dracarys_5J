@@ -37,15 +37,15 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  16 .debug_macro  000214f9  00000000  00000000  0001570a  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_line   0000e4f1  00000000  00000000  00036c03  2**0
+ 17 .debug_line   0000e4ef  00000000  00000000  00036c03  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    000cb19a  00000000  00000000  000450f4  2**0
+ 18 .debug_str    000cb19a  00000000  00000000  000450f2  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000043  00000000  00000000  0011028e  2**0
+ 19 .comment      00000043  00000000  00000000  0011028c  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  00002d04  00000000  00000000  001102d4  2**2
+ 20 .debug_frame  00002d04  00000000  00000000  001102d0  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 21 .debug_line_str 00000067  00000000  00000000  00112fd8  2**0
+ 21 .debug_line_str 00000067  00000000  00000000  00112fd4  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -1085,15 +1085,12 @@ void trapezoidal_func(int k, TIM_HandleTypeDef *htim, TIM_HandleTypeDef *hslave)
 08000a44 <HAL_TIM_PeriodElapsedCallback>:
 
 //slave callback for trapezoidal profile
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {/*
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
  8000a44:	b580      	push	{r7, lr}
  8000a46:	b082      	sub	sp, #8
  8000a48:	af00      	add	r7, sp, #0
  8000a4a:	6078      	str	r0, [r7, #4]
 
- }
-
- }*/
 
 	if (htim->Instance == TIM6) {
  8000a4c:	687b      	ldr	r3, [r7, #4]

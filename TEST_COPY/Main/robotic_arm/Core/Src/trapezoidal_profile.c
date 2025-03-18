@@ -126,57 +126,8 @@ void trapezoidal_func(int k, TIM_HandleTypeDef *htim, TIM_HandleTypeDef *hslave)
 }
 
 //slave callback for trapezoidal profile
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {/*
- if (htim->Instance == TIM5) {
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 
- if (htim->Instance->CNT >= htim->Instance->ARR) {
- HAL_TIM_PWM_Stop_IT(&htim8, TIM_CHANNEL_1);
- count_rising_edge[2] = 0;
- //acc_count = 0;  //debug
- //dec_count = 0; //debug
- htim->Instance->EGR |= TIM_EGR_UG;  //reset
- htim8.Instance->EGR |= TIM_EGR_UG;
-
- TIM_Cmd(htim->Instance, DISABLE); //disable the slave timer
- TIM_Cmd(htim8.Instance, DISABLE); //disable the slave timer
-
- }
-
- }
-
- if (htim->Instance == TIM3) {
- if (htim->Instance->CNT >= htim->Instance->ARR) {
- HAL_TIM_PWM_Stop_IT(&htim2, TIM_CHANNEL_1);
- HAL_TIM_PWM_Stop_IT(&htim2, TIM_CHANNEL_2);
- count_rising_edge[1] = 0;
- //acc_count = 0;  //debug
- //dec_count = 0; //debug
- htim->Instance->EGR |= TIM_EGR_UG;  //reset
- htim2.Instance->EGR |= TIM_EGR_UG;
-
- TIM_Cmd(htim->Instance, DISABLE); //disable the slave timer
-
- }
-
- }
-
- if (htim->Instance == TIM4) {
-
- if (htim->Instance->CNT >= htim->Instance->ARR) {
- HAL_TIM_PWM_Stop_IT(&htim1, TIM_CHANNEL_1);
-
- count_rising_edge[0] = 0;
- //acc_count = 0;  //debug
- //dec_count = 0; //debug
- htim->Instance->EGR |= TIM_EGR_UG;  //reset
- htim1.Instance->EGR |= TIM_EGR_UG;
- //__HAL_TIM_CLEAR_FLAG(&htim1, TIM_FLAG_UPDATE);
-
- TIM_Cmd(htim->Instance, DISABLE); //disable the slave timer
-
- }
-
- }*/
 
 	if (htim->Instance == TIM6) {
 
