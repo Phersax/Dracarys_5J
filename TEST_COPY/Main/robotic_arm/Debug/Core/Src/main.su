@@ -1,7 +1,7 @@
 ../Core/Src/trapezoidal_profile.c:23:6:TIM_Cmd	16	static
 ../Core/Src/trapezoidal_profile.c:37:6:trapezoidal_func	32	static
-../Core/Src/trapezoidal_profile.c:132:6:HAL_TIM_PeriodElapsedCallback	16	static
-../Core/Src/trapezoidal_profile.c:193:6:HAL_TIM_PWM_PulseFinishedCallback	16	static
+../Core/Src/trapezoidal_profile.c:129:6:HAL_TIM_PeriodElapsedCallback	16	static
+../Core/Src/trapezoidal_profile.c:190:6:HAL_TIM_PWM_PulseFinishedCallback	16	static
 ../Core/Src/main.c:87:5:main	16	static
-../Core/Src/main.c:248:6:SystemClock_Config	88	static
-../Core/Src/main.c:298:6:Error_Handler	4	static,ignoring_inline_asm
+../Core/Src/main.c:221:6:SystemClock_Config	88	static
+../Core/Src/main.c:268:6:Error_Handler	4	static,ignoring_inline_asm

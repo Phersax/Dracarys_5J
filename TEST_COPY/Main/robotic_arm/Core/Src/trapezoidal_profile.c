@@ -39,20 +39,17 @@ void trapezoidal_func(int k, TIM_HandleTypeDef *htim, TIM_HandleTypeDef *hslave)
 	int cnt = __HAL_TIM_GET_COUNTER(hslave);
 	if (cnt >= hslave->Instance->ARR) {
 		if (hslave->Instance == TIM3) {
-			//HAL_TIM_PWM_Stop_IT(htim, TIM_CHANNEL_1);
 			HAL_TIM_PWM_Stop_IT(htim, TIM_CHANNEL_2);
 		}
 
 		HAL_TIM_PWM_Stop_IT(htim, TIM_CHANNEL_1);
 
-		count_rising_edge[0] = 0;
+		count_rising_edge[k] = 0;
 		acc_count[k] = 0;  //debug
 		dec_count[k] = 0; //debug
 
-
-
 		htim->Instance->EGR |= TIM_EGR_UG;
-
+		hslave->Instance->EGR |= TIM_EGR_UG;
 
 	} else {
 
