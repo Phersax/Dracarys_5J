@@ -1,0 +1,33 @@
+!SESSION 2025-03-18 22:05:43.641 -----------------------------------------------
+eclipse.buildId=Version 1.16.1
+java.version=17.0.11
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2025-03-18 22:05:52.280
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2025-03-18 22:05:52.281
+!MESSAGE Log4j2 initialized with config file C:\Users\Francesco Stasi\OneDrive - Politecnico di Bari\UNI_Robotics_1\RASN_5\.metadata\.log4j2.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2025-03-18 22:05:55.848
+!MESSAGE Started RMI Server, listening on port 41337
+!SESSION 2025-03-19 00:14:10.417 -----------------------------------------------
+eclipse.buildId=Version 1.16.1
+java.version=17.0.11
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2025-03-19 00:14:21.424
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2025-03-19 00:14:21.424
+!MESSAGE Log4j2 initialized with config file C:\Users\Francesco Stasi\OneDrive - Politecnico di Bari\UNI_Robotics_1\RASN_5\.metadata\.log4j2.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2025-03-19 00:14:25.975
+!MESSAGE Started RMI Server, listening on port 41337
+
+!ENTRY org.eclipse.cdt.core 1 0 2025-03-19 00:16:12.170
+!MESSAGE Indexed 'robotic_arm' (26 sources, 125 headers) in 5.83 sec: 12,601 declarations; 64,014 references; 1 unresolved inclusions; 92 syntax errors; 240 unresolved names (0.31%)
