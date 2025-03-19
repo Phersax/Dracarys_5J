@@ -8,6 +8,6 @@
 ../Core/Src/tim.c:410:6:MX_TIM10_Init	40	static
 ../Core/Src/tim.c:451:6:MX_TIM11_Init	40	static
 ../Core/Src/tim.c:492:6:HAL_TIM_Base_MspInit	56	static
-../Core/Src/tim.c:623:6:HAL_TIM_MspPostInit	56	static
-../Core/Src/tim.c:735:6:HAL_TIM_Base_MspDeInit	16	static
-../Core/Src/tim.c:875:6:HAL_GPIO_EXTI_Callback	16	static,ignoring_inline_asm
+../Core/Src/tim.c:613:6:HAL_TIM_MspPostInit	56	static
+../Core/Src/tim.c:725:6:HAL_TIM_Base_MspDeInit	16	static
+../Core/Src/tim.c:844:6:HAL_GPIO_EXTI_Callback	16	static,ignoring_inline_asm

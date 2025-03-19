@@ -77,7 +77,7 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-GPIO_PinState state;
+//GPIO_PinState state;
 /* USER CODE END 0 */
 
 /**
@@ -136,66 +136,55 @@ int main(void) {
 	servo_init(&srv1, &htim10); //default position
 	servo_init(&srv2, &htim11); //default position
 
-	//30 orario j1
-	//j2/j3 orario 75
-	//j4 antiorario 15
-	//servo2 -10
+	for (int i = 0; i < 2; i++) {
 
-	//for (int i = 0; i < 2; i++) {
+		//FIRST MOVEMENT
+		stepper_move(&stp1, COUNTERCLOCKWISE, 36.5, 40);
 
-	//HAL_Delay(1200);
+		stepper_move(&stp2, CLOCKWISE, 132.5, 10);
+		stepper_move(&stp3, COUNTERCLOCKWISE, 132.5, 10);
 
-	//SI ABBASSA
-	stepper_move(&stp1, CLOCKWISE, 30, 30);
+		stepper_move(&stp4, CLOCKWISE, 40, 40);
 
-	stepper_move(&stp2, CLOCKWISE, 126, 30);
-	stepper_move(&stp3, COUNTERCLOCKWISE, 126, 30);
+		servo_move(&srv2, -15);
+		end_eff_config(0, &htim6);
 
-	stepper_move(&stp4, COUNTERCLOCKWISE, 90, 90);
+		HAL_Delay(3500);
 
-	stepper_move(&stp4, CLOCKWISE, 31, 10);
-	servo_move(&srv2, -10);
-	end_eff_config(0, &htim6);
+		//SECOND MOVEMENT
 
-	//SI ALZA
+		stepper_move(&stp2, COUNTERCLOCKWISE, 75, 10);
+		stepper_move(&stp3, CLOCKWISE, 75, 10);
 
-	HAL_Delay(4200);
+		HAL_Delay(2000);
 
-	stepper_move(&stp2, COUNTERCLOCKWISE, 126, 30);
-	stepper_move(&stp3, CLOCKWISE, 126, 30);
+		//third mov
 
-	stepper_move(&stp4, COUNTERCLOCKWISE, 31, 10);
-	servo_move(&srv2, 10);
+		stepper_move(&stp1, CLOCKWISE, 70, 70);
+		HAL_Delay(3900);
 
-	//GIRA ANTIORARIO
-	//HAL_Delay(4000);
-	stepper_move(&stp1, COUNTERCLOCKWISE, 60, 30);
+		//4 MOV
 
-	//SI ABBASSA
+		stepper_move(&stp2, CLOCKWISE, 45, 10);
+		stepper_move(&stp3, COUNTERCLOCKWISE, 45, 10);
 
-	HAL_Delay(3000);
+		//stepper_move(&stp4, CLOCKWISE, 8, 8);
 
-	stepper_move(&stp2, CLOCKWISE, 115, 30);
-	stepper_move(&stp3, COUNTERCLOCKWISE, 115, 30);
+		servo_move(&srv2, 0);
 
-	stepper_move(&stp4, CLOCKWISE, 30, 10);
-	servo_move(&srv2, -10);
+		HAL_Delay(4000);
 
-	//SI ALZA
+		end_eff_config(0, &htim6);
 
-	HAL_Delay(4000);
-	end_eff_config(0, &htim6);
+		stepper_move(&stp2, COUNTERCLOCKWISE, 104.5, 10);
+		stepper_move(&stp3, CLOCKWISE, 104.5, 10);
 
-	stepper_move(&stp2, COUNTERCLOCKWISE, 115, 30);
-	stepper_move(&stp3, CLOCKWISE, 115, 30);
+		stepper_move(&stp1, COUNTERCLOCKWISE, 33.5, 40);
 
-	stepper_move(&stp4, COUNTERCLOCKWISE, 30, 10);
-	servo_move(&srv2, 10);
+		stepper_move(&stp4, COUNTERCLOCKWISE, 40, 40);
 
-	//GIRA ORARIO
-	//HAL_Delay(4000);
-	stepper_move(&stp1, CLOCKWISE, 30, 30);
-	//HAL_Delay(4000);
+		HAL_Delay(3000);
+	}
 
 	/* USER CODE END 2 */
 
@@ -203,10 +192,7 @@ int main(void) {
 	/* USER CODE BEGIN WHILE */
 
 	while (1) {
-		//HAL_Delay(10);
-		//state= HAL_GPIO_ReadPin(ENDEFF_en_GPIO_Port,ENDEFF_en_Pin); //set
-		//arr= htim1.Instance->ARR;
-		//state = __HAL_TIM_GET_FLAG(&htim1, TIM_FLAG_UPDATE);
+
 		/* USER CODE END WHILE */
 
 		/* USER CODE BEGIN 3 */

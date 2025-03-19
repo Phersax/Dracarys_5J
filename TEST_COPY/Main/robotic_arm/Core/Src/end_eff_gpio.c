@@ -12,7 +12,7 @@ void end_eff_config(int time,TIM_HandleTypeDef *htim){
 	if(time<1){ //0
 		HAL_GPIO_TogglePin(ENDEFF_en_GPIO_Port, ENDEFF_en_Pin);
 	}
-	else{
+	/*else{
 
 		//__HAL_TIM_SET_PRESCALER(&htim7,1400*time);
 		//__HAL_TIM_SET_AUTORELOAD(&htim7,59999);
@@ -24,6 +24,6 @@ void end_eff_config(int time,TIM_HandleTypeDef *htim){
 
 		HAL_TIM_Base_Start_IT(htim);
 
-	}
+	}*/
 }
 

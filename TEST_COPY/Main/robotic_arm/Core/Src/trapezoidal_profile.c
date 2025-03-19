@@ -8,31 +8,39 @@
 //#include <trapezoidal_profile.h>
 extern int arr_des_a[3];
 extern int n_steps_a[3];
-int arr_start[3];
-int arr_max[3];
+extern unsigned int arr_start[3];
+extern unsigned int arr_max[3];
+extern unsigned int acc_rate_a[3];
 
-static int arr_current[3] = { ARR_START_0 - ACCEL_RATE, ARR_START_1
-		- ACCEL_RATE, ARR_START_2 - ACCEL_RATE };
+static int arr_current[3] = { ARR_START_0 - ACCEL_RATE_0, ARR_START_1
+		- ACCEL_RATE_1, ARR_START_2 - ACCEL_RATE_2 };
 
 static unsigned int count_rising_edge[3]; //need this to have an artificial CNT reg of the timer slave for each master
-int acc_count[3]; //debug
-int dec_count[3]; //debug
+unsigned int acc_count[3]; //debug
+//int dec_count[3]; //debug
 
 int arr[3]; //debug
 
-void TIM_Cmd(TIM_TypeDef *TIMx, FunctionalState NewState) { //to disable the timers
-	/* Check the parameters */
+
+
+
+/*void TIM_Cmd(TIM_TypeDef *TIMx, FunctionalState NewState) { //to disable the timers
+
 	assert_param(IS_TIM_ALL_PERIPH(TIMx));
 	assert_param(IS_FUNCTIONAL_STATE(NewState));
 
 	if (NewState != DISABLE) {
-		/* Enable the TIM Counter */
+
 		TIMx->CR1 |= TIM_CR1_CEN;
 	} else {
-		/* Disable the TIM Counter */
+
 		TIMx->CR1 &= (uint16_t) (~((uint16_t) TIM_CR1_CEN));
 	}
-}
+}*/
+
+
+
+
 
 void trapezoidal_func(int k, TIM_HandleTypeDef *htim, TIM_HandleTypeDef *hslave) {
 
@@ -46,7 +54,7 @@ void trapezoidal_func(int k, TIM_HandleTypeDef *htim, TIM_HandleTypeDef *hslave)
 
 		count_rising_edge[k] = 0;
 		acc_count[k] = 0;  //debug
-		dec_count[k] = 0; //debug
+		//dec_count[k] = 0; //debug
 
 		htim->Instance->EGR |= TIM_EGR_UG;
 		hslave->Instance->EGR |= TIM_EGR_UG;
@@ -64,10 +72,10 @@ void trapezoidal_func(int k, TIM_HandleTypeDef *htim, TIM_HandleTypeDef *hslave)
 
 		}
 
-		if (arr_des_a[k] < (arr_current[k] - ACCEL_RATE)
+		if (arr_des_a[k] < (arr_current[k] - acc_rate_a[k])
 				&& cnt <= (int) (n_steps_a[k] * 1 / 2)) { //acceleration phase
 
-			arr_current[k] -= ACCEL_RATE;
+			arr_current[k] -= acc_rate_a[k];
 			if (arr_current[k] <= arr_max[k])
 				arr_current[k] = arr_max[k];
 
@@ -84,7 +92,7 @@ void trapezoidal_func(int k, TIM_HandleTypeDef *htim, TIM_HandleTypeDef *hslave)
 		}
 
 		else {
-			if (arr_des_a[k] >= (arr_current[k] - ACCEL_RATE)
+			if (arr_des_a[k] >= (arr_current[k] - acc_rate_a[k])
 					&& arr_current[k] > arr_des_a[k]
 					&& cnt <= (int) (n_steps_a[k] * 1 / 2)) { //constant phase
 
@@ -101,9 +109,9 @@ void trapezoidal_func(int k, TIM_HandleTypeDef *htim, TIM_HandleTypeDef *hslave)
 			else {
 
 				if (cnt >= (n_steps_a[k] - acc_count[k])) { //deceleration phase
-					arr_current[k] += ACCEL_RATE;
+					arr_current[k] += acc_rate_a[k];
 
-					if (arr_current[k] >= (arr_start[k] - ACCEL_RATE))
+					if (arr_current[k] >= (arr_start[k] - acc_rate_a[k]))
 						arr_current[k] = arr_start[k];
 
 					__HAL_TIM_SET_AUTORELOAD(htim, arr_current[k]);
@@ -114,7 +122,7 @@ void trapezoidal_func(int k, TIM_HandleTypeDef *htim, TIM_HandleTypeDef *hslave)
 					hslave->Instance->EGR |= TIM_EGR_UG;
 					hslave->Instance->CNT = count_rising_edge[k];
 
-					dec_count[k] += 5; //debug
+					//dec_count[k] += 5; //debug
 
 				}
 
@@ -128,13 +136,12 @@ void trapezoidal_func(int k, TIM_HandleTypeDef *htim, TIM_HandleTypeDef *hslave)
 //slave callback for trapezoidal profile
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 
+	/*if (htim->Instance == TIM6) {
 
-	if (htim->Instance == TIM6) {
+	 HAL_GPIO_WritePin(ENDEFF_en_GPIO_Port, ENDEFF_en_Pin, GPIO_PIN_RESET); //disable the end_eff
+	 HAL_TIM_Base_Stop_IT(htim);
 
-		HAL_GPIO_WritePin(ENDEFF_en_GPIO_Port, ENDEFF_en_Pin, GPIO_PIN_RESET); //disable the end_eff
-		HAL_TIM_Base_Stop_IT(htim);
-
-	}
+	 }*/
 
 }
 

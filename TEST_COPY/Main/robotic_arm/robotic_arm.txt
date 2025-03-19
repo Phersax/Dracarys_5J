@@ -122,7 +122,7 @@ SOFTWARE PROJECT
 
 Project Settings : 
 Project Name : robotic_arm
-Project Folder : C:\Users\Francesco Stasi\OneDrive - Politecnico di Bari\UNI_Robotics_1\RASN_5\TEST_COPY\Main\robotic_arm
+Project Folder : C:\Users\david\Desktop\rob1_proj\RASN_5\TEST_COPY\Main\robotic_arm
 Toolchain / IDE : STM32CubeIDE
 Firmware Package Name and Version : STM32Cube FW_F4 V1.28.1
 

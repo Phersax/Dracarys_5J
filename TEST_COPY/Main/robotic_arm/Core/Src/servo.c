@@ -14,7 +14,7 @@ void servo_init(servo_obj *srv, TIM_HandleTypeDef *pwm_timer) {
 	srv->pwm_timer->Instance->ARR = 60000 - 1;
 	__HAL_TIM_SET_COMPARE(srv->pwm_timer, TIM_CHANNEL_1,
 			(int) ((CCR_MAX + CCR_MIN) / 2));
-	HAL_TIM_PWM_Start_IT(srv->pwm_timer, TIM_CHANNEL_1); //START PWM)
+	HAL_TIM_PWM_Start(srv->pwm_timer, TIM_CHANNEL_1); //START PWM)
 }
 int ccr; //debug
 
