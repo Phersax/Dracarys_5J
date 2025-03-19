@@ -5,7 +5,7 @@
  *      Author: david
  */
 
-//#include "tim.h"
+//disable the pwm when it reaches the n_steps
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 	if (htim->Instance == TIM5) {
 		HAL_TIM_PWM_Stop_IT(&htim8, TIM_CHANNEL_1);

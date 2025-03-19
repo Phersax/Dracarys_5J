@@ -64,8 +64,6 @@ static stepper_obj stp3;
 static stepper_obj stp4;
 static servo_obj srv1;
 static servo_obj srv2;
-//int state;
-//int arr;
 
 /* USER CODE END PV */
 
@@ -77,7 +75,7 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-//GPIO_PinState state;
+
 /* USER CODE END 0 */
 
 /**
@@ -118,13 +116,13 @@ int main(void) {
 	MX_TIM11_Init();
 	MX_TIM6_Init();
 	/* USER CODE BEGIN 2 */
-	HAL_TIM_Base_Start(&htim4); //1st joint
-	HAL_TIM_Base_Start(&htim3); //2nd joint
-	HAL_TIM_Base_Start(&htim5); //3rd joint
+	HAL_TIM_Base_Start(&htim4); //start timer 1st joint
+	HAL_TIM_Base_Start(&htim3); //start timer 2nd joint
+	HAL_TIM_Base_Start(&htim5); //start timer 3rd joint
 
-	HAL_GPIO_WritePin(ENABLE_GPIO_Port, ENABLE_Pin, GPIO_PIN_RESET); //ENABLE
-	/*
-	 stepper_init(obj, resol, microstep, enable_port, direction_port, timer slave, timerpwm*/
+	HAL_GPIO_WritePin(ENABLE_GPIO_Port, ENABLE_Pin, GPIO_PIN_RESET); //ENABLE stepper motors
+
+	/* stepper_init(obj, timer pwm, timer slave, resol, microstep, enable_port, direction_port */
 	stepper_init(&stp1, &htim1, &htim4, 1.8, 4 * 4.27, DIRECTION1_GPIO_Port,
 	DIRECTION1_Pin);
 	stepper_init(&stp2, &htim2, &htim3, 1.8, 4 * 6, DIRECTION2_GPIO_Port,
@@ -133,12 +131,17 @@ int main(void) {
 	DIRECTION3_Pin);
 	stepper_init(&stp4, &htim8, &htim5, 1.8, 8 * 4.9, DIRECTION4_GPIO_Port,
 	DIRECTION4_Pin);
-	servo_init(&srv1, &htim10); //default position
-	servo_init(&srv2, &htim11); //default position
 
-	for (int i = 0; i < 2; i++) {
+	//servo: default position 0° in the range {-90,+90}
+	/*servo_init(obj, timer pwm)*/
+	servo_init(&srv1, &htim10);
+	servo_init(&srv2, &htim11);
 
-		//FIRST MOVEMENT
+
+
+	for (int i = 0; i < 2; i++) { //trajectory repeated 2 times
+
+		//1ST MOVEMENT
 		stepper_move(&stp1, COUNTERCLOCKWISE, 36.5, 40);
 
 		stepper_move(&stp2, CLOCKWISE, 132.5, 10);
@@ -151,28 +154,28 @@ int main(void) {
 
 		HAL_Delay(3500);
 
-		//SECOND MOVEMENT
+		//2ND MOVEMENT
 
 		stepper_move(&stp2, COUNTERCLOCKWISE, 75, 10);
 		stepper_move(&stp3, CLOCKWISE, 75, 10);
 
 		HAL_Delay(2000);
 
-		//third mov
-
+		//3RD MOVEMENT
 		stepper_move(&stp1, CLOCKWISE, 70, 70);
 		HAL_Delay(3900);
 
-		//4 MOV
+		//4TH MOVEMENT
 
 		stepper_move(&stp2, CLOCKWISE, 45, 10);
 		stepper_move(&stp3, COUNTERCLOCKWISE, 45, 10);
 
-		//stepper_move(&stp4, CLOCKWISE, 8, 8);
 
 		servo_move(&srv2, 0);
 
 		HAL_Delay(4000);
+
+		//BACK TO INITIAL POSITION
 
 		end_eff_config(0, &htim6);
 

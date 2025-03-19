@@ -9,9 +9,6 @@
 #define INC_STEPPER_H_
 #include "main.h"
 
-
-
-
 typedef struct {
 	//timers
 	TIM_HandleTypeDef *pwm_timer; //master timer
@@ -34,7 +31,7 @@ typedef enum {
 void stepper_init(stepper_obj *stp, TIM_HandleTypeDef *pwm_timer,
 		TIM_HandleTypeDef *position_timer, float stepper_resolution,
 		uint16_t microstep, GPIO_TypeDef *direction_port,
-		uint16_t direction_pin) ;
+		uint16_t direction_pin);
 
 void stepper_move(stepper_obj *stp, direction_str direction, float position,
 		float freq_steps);

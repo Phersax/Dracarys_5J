@@ -1,6 +1,6 @@
 #include <stepper.h>
 
-//definisco la struct stepper con i seguenti parametri
+//stepper struct
 void stepper_init(stepper_obj *stp, TIM_HandleTypeDef *pwm_timer,
 		TIM_HandleTypeDef *position_timer, float stepper_resolution,
 		uint16_t microstep, GPIO_TypeDef *direction_port,
@@ -19,17 +19,18 @@ void stepper_init(stepper_obj *stp, TIM_HandleTypeDef *pwm_timer,
 
 }
 
-int n_steps_a[3]; //3 pwm timers
-int arr_des_a[3];
+int n_steps_a[3]; //steps that the single timer have to perform
+int arr_des_a[3]; //arr that should be reached
 
 static int flag_configured_timer2; //for the timer2 config
 
-float freq_des_steps; //DEBUG
-static int arr_des = 20000;  //random value
+//float freq_des_steps; //DEBUG
 
 void stepper_move(stepper_obj *stp, direction_str direction, float position,
 		float freq_desired) {
 
+	int arr_des;
+	float freq_des_steps;
 	int i = 0;
 	int n_steps = stp->step_scale * position / 360.0f; //[n_steps]
 
@@ -71,22 +72,22 @@ void stepper_move(stepper_obj *stp, direction_str direction, float position,
 		flag_configured_timer2 ^= 1;
 
 	}
-	n_steps = n_steps * (stp->pwm_timer->Instance->PSC + 1);
+	n_steps = n_steps * (stp->pwm_timer->Instance->PSC + 1); //update the var and bring the value outside
 
 	if (stp->pwm_timer->Instance == TIM1) {
-		i = 0;
+		i = 0; //timer joint 1
 	} else {
 		if (stp->pwm_timer->Instance == TIM2) {
-			i = 1;
+			i = 1; //timer joint 2
 		} else
-			i = 2;
+			i = 2; //timer joint 3
 	}
 	n_steps_a[i] = n_steps;
 	arr_des_a[i] = arr_des;
 
 }
 
-void reset_timers(stepper_obj *stp) {
+void reset_timers(stepper_obj *stp) { //don't used anymore
 
 	stp->pwm_timer->Instance->EGR = TIM_EGR_UG; //reset the trigger
 	//stp->position_timer->Instance->EGR = TIM_EGR_UG; //reset the trigger
