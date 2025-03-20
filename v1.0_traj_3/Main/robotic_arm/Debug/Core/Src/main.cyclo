@@ -1,0 +1,6 @@
+../Core/Src/trapezoidal_profile.c:40:6:trapezoidal_func	12
+../Core/Src/trapezoidal_profile.c:132:6:HAL_TIM_PeriodElapsedCallback	1
+../Core/Src/trapezoidal_profile.c:145:6:HAL_TIM_PWM_PulseFinishedCallback	4
+../Core/Src/main.c:85:5:main	1
+../Core/Src/main.c:191:6:SystemClock_Config	3
+../Core/Src/main.c:238:6:Error_Handler	1
