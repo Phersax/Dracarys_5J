@@ -132,8 +132,8 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 
 	if (htim->Instance == TIM6) {
 
-		HAL_GPIO_WritePin(ENDEFF_1_GPIO_Port, ENDEFF_1_Pin, GPIO_PIN_RESET);
-		HAL_GPIO_WritePin(ENDEFF_2_GPIO_Port, ENDEFF_2_Pin, GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(ENDEFF_1_GPIO_Port, ENDEFF_1_Pin, GPIO_PIN_SET);
+		HAL_GPIO_WritePin(ENDEFF_2_GPIO_Port, ENDEFF_2_Pin, GPIO_PIN_SET);
 
 		HAL_TIM_Base_Stop_IT(htim);
 		htim->Instance->EGR |= TIM_EGR_UG;

@@ -61,7 +61,10 @@ void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(ENABLE_GPIO_Port, ENABLE_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, DIRECTION1_Pin|ENDEFF_1_Pin|ENDEFF_2_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(DIRECTION1_GPIO_Port, DIRECTION1_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOB, ENDEFF_1_Pin|ENDEFF_2_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin : PtPin */
   GPIO_InitStruct.Pin = DISABLE_button_Pin;
