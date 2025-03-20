@@ -1,0 +1,58 @@
+/*
+ * end_eff_gpio.c
+ *
+ *  Created on: Mar 16, 2025
+ *      Author: david
+ */
+#include "end_eff_gpio.h"
+
+void gripper_init(gripper_obj *endeff, TIM_HandleTypeDef *htim) {
+
+	endeff->htim = htim;
+
+}
+
+void gripper_config(gripper_obj *endeff, int func, int time) {
+
+	switch (func) {
+
+	case 1: { //hold- 00
+
+		HAL_GPIO_WritePin(ENDEFF_1_GPIO_Port, ENDEFF_1_Pin, GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(ENDEFF_2_GPIO_Port, ENDEFF_2_Pin, GPIO_PIN_RESET);
+	}
+	case 2: { //grip-01
+
+		HAL_GPIO_WritePin(ENDEFF_1_GPIO_Port, ENDEFF_1_Pin, GPIO_PIN_RESET);
+		GPIO_PinState state = HAL_GPIO_ReadPin(ENDEFF_1_GPIO_Port,
+		ENDEFF_1_Pin);
+		if (state == GPIO_PIN_RESET) {
+			HAL_GPIO_WritePin(ENDEFF_2_GPIO_Port, ENDEFF_2_Pin, GPIO_PIN_SET);
+		}
+
+	}
+	case 3: { //release-10
+
+		HAL_GPIO_WritePin(ENDEFF_2_GPIO_Port, ENDEFF_2_Pin, GPIO_PIN_RESET);
+		GPIO_PinState state = HAL_GPIO_ReadPin(ENDEFF_2_GPIO_Port,
+		ENDEFF_2_Pin);
+		if (state == GPIO_PIN_RESET) {
+			HAL_GPIO_WritePin(ENDEFF_1_GPIO_Port, ENDEFF_1_Pin, GPIO_PIN_SET);
+		}
+
+	}
+
+	case 4: { //timer
+
+		__HAL_TIM_SET_PRESCALER(endeff->htim, 1400 * time);
+		__HAL_TIM_SET_AUTORELOAD(endeff->htim, 59999);
+		endeff->htim->Instance->EGR |= TIM_EGR_UG;
+
+		__HAL_TIM_CLEAR_IT(endeff->htim, TIM_IT_UPDATE);
+		HAL_TIM_Base_Start_IT(endeff->htim);
+
+	}
+
+	}
+}
+
