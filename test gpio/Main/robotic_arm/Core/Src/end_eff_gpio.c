@@ -14,14 +14,12 @@ void gripper_init(gripper_obj *endeff, TIM_HandleTypeDef *htim) {
 
 void gripper_config(gripper_obj *endeff, int func, int time) {
 
-	switch (func) {
+	if (func == 1) { //hold- 00
 
-	case 1: { //hold- 00
-
-		HAL_GPIO_WritePin(ENDEFF_1_GPIO_Port, ENDEFF_1_Pin, GPIO_PIN_RESET);
-		HAL_GPIO_WritePin(ENDEFF_2_GPIO_Port, ENDEFF_2_Pin, GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(ENDEFF_1_GPIO_Port, ENDEFF_1_Pin, GPIO_PIN_SET);
+		HAL_GPIO_WritePin(ENDEFF_2_GPIO_Port, ENDEFF_2_Pin, GPIO_PIN_SET);
 	}
-	case 2: { //grip-01
+	if (func == 2) { //grip-01
 
 		HAL_GPIO_WritePin(ENDEFF_1_GPIO_Port, ENDEFF_1_Pin, GPIO_PIN_RESET);
 		GPIO_PinState state = HAL_GPIO_ReadPin(ENDEFF_1_GPIO_Port,
@@ -31,7 +29,7 @@ void gripper_config(gripper_obj *endeff, int func, int time) {
 		}
 
 	}
-	case 3: { //release-10
+	if (func == 3) { //release-10
 
 		HAL_GPIO_WritePin(ENDEFF_2_GPIO_Port, ENDEFF_2_Pin, GPIO_PIN_RESET);
 		GPIO_PinState state = HAL_GPIO_ReadPin(ENDEFF_2_GPIO_Port,
@@ -42,7 +40,7 @@ void gripper_config(gripper_obj *endeff, int func, int time) {
 
 	}
 
-	case 4: { //timer
+	if (func == 4) { //timer
 
 		__HAL_TIM_SET_PRESCALER(endeff->htim, 1400 * time);
 		__HAL_TIM_SET_AUTORELOAD(endeff->htim, 59999);
@@ -53,6 +51,5 @@ void gripper_config(gripper_obj *endeff, int func, int time) {
 
 	}
 
-	}
 }
 
