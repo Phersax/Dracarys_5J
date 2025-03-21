@@ -1,4 +1,3 @@
-"./Core/Src/end_eff_gpio.o"
 "./Core/Src/gpio.o"
 "./Core/Src/main.o"
 "./Core/Src/servo.o"
