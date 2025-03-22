@@ -1,3 +1,0 @@
-../Core/Src/stepper.c:4:6:stepper_init	32	static
-../Core/Src/stepper.c:31:6:stepper_move	32	static
-../Core/Src/stepper.c:88:6:reset_timers	16	static
