@@ -1,0 +1,2 @@
+../Core/Src/end_eff_gpio.c:9:6:gripper_init	1
+../Core/Src/end_eff_gpio.c:15:6:gripper_config	7
