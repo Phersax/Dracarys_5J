@@ -3,7 +3,7 @@
 ![C](https://img.shields.io/badge/-%20darkblue?style=flat-square&logo=C)
 ![MATLAB](https://img.shields.io/badge/MATLAB-blue)
 ![Solidworks](https://img.shields.io/badge/SolidWorks-red?logo=solidworks&logoColor=white)
-|[Kikad](https://img.shields.io/badge/KiCad-black?logo=kicad&logoColor=white)
+|[Kikad](https://img.shields.io/badge/KiCad-white?logo=kicad&logoColor=black)
 
 ## About the Project
 
@@ -21,7 +21,7 @@ trapezoidal joint profile.
 
 ## Schematic
 
-<img src="schematic/schematic.jpg" alt="Schematic" width="510" height="330">
+<img src="schematic/schematic.jpg" alt="Schematic" width="510" height="510">
 
 ### Note
 The V1.0_gripper is the main folder of the whole code, anyway you can see for trajectories tested example in the folder v1.0_traj or the 'interrupt_vers' if you're looking for the implementation based on all interrupts. 
@@ -34,4 +34,5 @@ Check out the report if you are interested in our work!
 [Link to the report](Dr5_report.pdf)
 
 [Link to the pinout and configuration](Dr5_pinout&configuration.pdf)
+
 🚀 Happy coding! 🌟
