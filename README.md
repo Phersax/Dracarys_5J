@@ -19,14 +19,16 @@ More pictures and videos in the media folder!
 
 ## 3D model made with solidworks
 <p align="center">
-  <img src="media/3d_model_media/ass1.PNG" width="24%">
-  <img src="media/3d_model_media/ass2.PNG" width="24%">
-  <img src="media/3d_model_media/ass3.PNG" width="24%">
-  <img src="media/3d_model_media/ass4.PNG" width="24%">
+  <img src="media/3d_model_media/ass1.PNG" width="20%">
+  <img src="media/3d_model_media/ass2.PNG" width="20%">
+  <img src="media/3d_model_media/ass3.PNG" width="20%">
+  <img src="media/3d_model_media/ass4.PNG" width="20%">
 </p>
 
 ## Schematic
-<img src="schematic/schematic.jpg" alt="Schematic" width="510" height="450">
+<p align="center">
+  <img src="schematic/schematic.jpg" width="40%">
+</p>
 
 ## Note
 The V1.0_gripper is the main folder of the whole code, anyway you can see for trajectories tested example in the folder v1.0_traj or the 'interrupt_vers' if you're looking for the implementation based on all interrupts. 
