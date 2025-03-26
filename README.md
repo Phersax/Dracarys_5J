@@ -5,27 +5,30 @@
 ![Solidworks](https://img.shields.io/badge/SolidWorks-red?logo=solidworks&logoColor=white)
 
 ## About the Project
+Welcome to the repository dedicated to the development of a 5-degree-of-freedom anthropomorphic robotic arm! This project aims to create a modular, fully 3D-printable, and open-source manipulator, making it accessible and reproducible for everyone.
 
-This project aims to develop and implement a five-degree-of-freedom anthropomorphic manipu-
-lator.
+The system uses stepper motors to ensure precise movements and features components manufactured through 3D printing. The hardware includes dedicated drivers and a control board to execute smooth trajectories with trapezoidal motion profiles.
 
-The ultimate goal is to create a modular robotic arm that is entirely 3D-printable and released as open-source, to promote
-system reproducibility and accessibility.
+In this repository, you’ll find everything you need: 3D models, electronic schematics, control code, and validation tests. Feel free to contribute, improve, and experiment! 
 
-The robot is designed using 3D modeling software. Subsequently, 3D printers are used to obtain
-the parts needed for assembly. The motors used enable open-loop control, in fact, stepper motors have rotors that perform predefined rotations as long as no steps are lost,
-while the servo motor has an internal control logic that allows for precise movements. 
-The hardware required to operate the robot will consist of dedicated drivers and a control board. 
+<p align="center">
+  <img src="media/3d_model_media/ass5.PNG" width="40%">
+</p>
 
-The ultimate goal of the project is to enable the end effector to follow specific trajectories with a
-trapezoidal joint profile.
+More pictures and videos in the media folder!
 
+## 3D model made with solidworks
+<p align="center">
+  <img src="media/3d_model_media/ass1.PNG" width="24%">
+  <img src="media/3d_model_media/ass2.PNG" width="24%">
+  <img src="media/3d_model_media/ass3.PNG" width="24%">
+  <img src="media/3d_model_media/ass4.PNG" width="24%">
+</p>
 
 ## Schematic
+<img src="schematic/schematic.jpg" alt="Schematic" width="510" height="450">
 
-<img src="schematic/schematic.jpg" alt="Schematic" width="510" height="510">
-
-### Note
+## Note
 The V1.0_gripper is the main folder of the whole code, anyway you can see for trajectories tested example in the folder v1.0_traj or the 'interrupt_vers' if you're looking for the implementation based on all interrupts. 
 
 If you don't want to use the trapezoidal profile just comment the code as mentioned above, be sure that the timers are set in interrupt mode and check for __HAL_TIM_Base_Start_IT 
@@ -36,5 +39,3 @@ Check out the report if you are interested in our work!
 [Link to the report](Dr5_report.pdf)
 
 [Link to the pinout and configuration](Dr5_pinout&configuration.pdf)
-
-🚀 Happy coding! 🌟
