@@ -17,7 +17,7 @@ In this repository, you’ll find everything you need: 3D models, electronic sch
 
 More pictures and videos in the media folder!
 
-## 3D model made with solidworks
+## 3D model made with Solidworks
 <p align="center">
   <img src="media/3d_model_media/ass1.PNG" width="20%">
   <img src="media/3d_model_media/ass2.PNG" width="20%">
