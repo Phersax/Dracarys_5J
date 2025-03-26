@@ -31,6 +31,8 @@ More pictures and videos in the media folder!
 </p>
 
 ## Note
+All software was developed on the STM32CubeIde and additionally the STM32CubeMx for configuration; for kinematics calculation, on the other hand, MATLAB and the Robotics System Toolbox were used. You may need to download this software in order to load the code properly.
+
 The V1.0_gripper is the main folder of the whole code, anyway you can see for trajectories tested example in the folder v1.0_traj or the 'interrupt_vers' if you're looking for the implementation based on all interrupts. 
 
 If you don't want to use the trapezoidal profile just comment the code as mentioned above, be sure that the timers are set in interrupt mode and check for __HAL_TIM_Base_Start_IT 
