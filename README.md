@@ -13,6 +13,7 @@ In this repository, you’ll find everything you need: 3D models, electronic sch
 
 <p align="center">
   <img src="media/3d_model_media/ass5.PNG" width="40%">
+  ![Trajectory Example!]{media/traj1_gif}
 </p>
 
 More pictures and videos in the media folder!
