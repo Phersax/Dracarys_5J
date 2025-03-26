@@ -19,10 +19,10 @@ More pictures and videos in the media folder!
 
 ## 3D model made with solidworks
 <p align="center">
-  <img src="media/3d_model_media/ass1.PNG" width="24%">
-  <img src="media/3d_model_media/ass2.PNG" width="24%">
-  <img src="media/3d_model_media/ass3.PNG" width="24%">
-  <img src="media/3d_model_media/ass4.PNG" width="24%">
+  <img src="media/3d_model_media/ass1.PNG" width="20%">
+  <img src="media/3d_model_media/ass2.PNG" width="20%">
+  <img src="media/3d_model_media/ass3.PNG" width="20%">
+  <img src="media/3d_model_media/ass4.PNG" width="20%">
 </p>
 
 ## Schematic
