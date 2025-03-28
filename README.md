@@ -45,7 +45,7 @@ Check out the report if you are interested in our work!
 
 [Link to the pinout and configuration](Dr5_pinout&configuration.pdf)
 
-## Licence 
+## License 
 Dracarys_5J © 2025 by Francesco Stasi, Davide Tonti is licensed under CC BY-NC-SA 4.0 
 
 
