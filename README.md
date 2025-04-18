@@ -5,7 +5,7 @@
 ![Solidworks](https://img.shields.io/badge/SolidWorks-red?logo=solidworks&logoColor=white)
 
 ## About the Project
-Welcome to the repository dedicated to the development of a 5-degree-of-freedom anthropomorphic robotic arm! This project aims to create a modular, fully 3D-printable, and open-source manipulator, making it accessible and reproducible for everyone.
+Welcome to the repository dedicated to the development of a 5-degree-of-freedom anthropomorphic robotic arm inspired by the robots Niryo Ned 2 and Kauda! This project aims to create a modular, fully 3D-printable, and open-source manipulator, making it accessible and reproducible for everyone.
 
 The system uses stepper motors to ensure precise movements and features components manufactured through 3D printing. The hardware includes dedicated drivers and a control board to execute smooth trajectories with trapezoidal motion profiles.
 
